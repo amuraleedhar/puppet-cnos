@@ -1,10 +1,10 @@
 require 'puppet/type'
-require 'LenovoCheflib'
-require 'LenovoCheflib/vlan'
+require 'cnos-rbapi'
+require 'cnos-rbapi/vlan'
 
 
 Puppet::Type.type(:cnos_vlan).provide :vlan do
- desc 'Manage Vlan on Lenovo CNOS. Requires LenovoCheflib'
+ desc 'Manage Vlan on Lenovo CNOS. Requires cnos-rbapi'
 
  #confine :feature => :LenovoCheflib
  confine operatingsystem: [:ubuntu]
