@@ -1,0 +1,14 @@
+{
+  "name": "lenovo-cnos",
+  "version": "0.0.0",
+  "author": "Coleen Quadros/Arun Kumar L",
+  "summary": "Module to manage and configure lenovo switch",
+  "license": "0.0.0",
+  "source": "https://github.com/arunktele/puppet.git",
+  "project_page": "https://github.com/arunktele/puppet",
+  "issues_url": "https://github.com/arunktele/puppet/issues",
+  "dependencies": [
+    {"name":"puppetlabs-stdlib","version_requirement":">= 1.0.0"}
+  ],
+  "data_provider": null
+}

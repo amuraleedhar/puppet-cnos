@@ -1,0 +1,6 @@
+transport : 'http'
+port : '8090'
+ip : '10.240.177.121'
+user : 'admin'
+password : 'admin'
+
