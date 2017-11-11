@@ -1,7 +1,7 @@
 require 'puppet/type'
 require 'cnos-rbapi'
 require 'cnos-rbapi/vlan'
-
+require 'pry'
 
 Puppet::Type.type(:cnos_vlan).provide :vlan do
  desc 'Manage Vlan on Lenovo CNOS. Requires cnos-rbapi'
@@ -13,18 +13,25 @@ Puppet::Type.type(:cnos_vlan).provide :vlan do
  conn = Connect.new('./config.yml')
 
  def self.instances
+     provider_val = []
+     puts "here instances"
      conn = Connect.new('./config.yml')
      resp = Vlan.get_all_vlan(conn)
+     i = 1
      return 'no vlans' if !resp
      resp.each do  |item|
-      provider_val = {:name => item['vlan_id'], :vlan_name => item['vlan_name'],:ensure => :present}
-      provider_val[:admin_state] = item['admin_state']
-      puts provider_val
-      new(provider_val)
+      provider_val << new(name: item['vlan_id'],
+                      vlan_name: item['vlan_name'],
+                      ensure: :present, 
+                      admin_state: item['admin_state'])
      end
+     return provider_val
  end
+ 
  def self.prefetch(resources)
+     puts "here"
      vlans = instances
+     puts vlans
      resources.keys.each do |name|
 	     if provider = vlans.find { |vlan| vlan.name == name }
 		resources[name].provider = provider
@@ -73,6 +80,7 @@ Puppet::Type.type(:cnos_vlan).provide :vlan do
  end
 
  def exists?
+     puts "exists"
      #conn = Connect.new('./config.yml')
      @property_hash[:ensure] == :present
      #resp = Vlan.get_vlan_prop(conn, resource[:vlan_id])

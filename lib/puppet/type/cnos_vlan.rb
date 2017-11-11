@@ -17,9 +17,9 @@ Puppet::Type.newtype(:cnos_vlan) do
   munge do |value|
         value.to_i
   end
-  
+   
   validate do |value|
-	unless value.to_i.between?(2, 3999)
+	unless value.to_i.between?(1, 3999)
 	  fail "value not within limit (2-3999)"
 	end
   end

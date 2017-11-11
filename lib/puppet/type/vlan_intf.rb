@@ -10,7 +10,6 @@ Puppet::Type.newtype(:vlan_intf) do
              vlans => ["<vlan_id>"]   
        	    }
           }'
-
  #Parameters
  newparam(:if_name, namevar: true) do
   desc 'Ethernet interface name'
