@@ -1,4 +1,3 @@
-
 Puppet::Type.newtype(:vlan_intf) do
  desc ' = {
 	    Manage Vlan_intf on Lenovo cnos.
