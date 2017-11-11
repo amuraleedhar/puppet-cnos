@@ -9,7 +9,6 @@ Puppet::Type.type(:lacp).provide :lacp do
  confine operatingsystem: [:ubuntu]
  
  def sys_prio
-     puts "here"
      conn = Connect.new('./config.yml')
      resp = Lacp.get_lacp(conn)
      resp['sys_prio']
@@ -17,7 +16,6 @@ Puppet::Type.type(:lacp).provide :lacp do
  
 
  def sys_prio=(value)
-     puts "here2"
      conn = Connect.new('./config.yml')
      params = {'sys_prio' => resource[:sys_prio]} 
      resp = Lacp.update_lacp(conn, params)
