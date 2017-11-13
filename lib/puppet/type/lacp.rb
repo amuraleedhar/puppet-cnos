@@ -3,7 +3,8 @@ Puppet::Type.newtype(:lacp) do
 	    Manage Lacp on Lenovo cnos.
 
 	    Example:
-	     lacp {"<sys_prio>":
+	     lacp {"lacp":
+             sys_prio => <sys_prio>
        	    }
           }'
 

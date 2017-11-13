@@ -4,7 +4,7 @@ require 'cnos-rbapi/lacp'
 
 
 Puppet::Type.type(:lacp).provide :lacp do
- desc 'Manage Vlan on Lenovo CNOS. Requires cnos-rbapi'
+ desc 'Manage Lacp on Lenovo CNOS. Requires cnos-rbapi'
 
  confine operatingsystem: [:ubuntu]
  
