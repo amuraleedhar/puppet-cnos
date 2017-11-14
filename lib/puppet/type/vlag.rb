@@ -1,4 +1,3 @@
-
 Puppet::Type.newtype(:vlag) do
  desc ' = {
 	    Manage Vlags on Lenovo cnos.
