@@ -43,20 +43,27 @@ Puppet::Type.type(:lag).provide :lag do
      @property_hash[:min_links]
  end 
  
+ def initilialize(value={})
+     super(value)
+     @property_flush = {}
+ end
+ 
  def interfaces=(value)
-     conn = Connect.new('./config.yml')
-     params = {'lag_id' => resource[:lag_id], 
-               'interfaces' => resource[:interfaces]}
-     resp = Lag.update_lag(conn, resource[:lag_id], params)
-     @property_hash[:interfaces] = value
+     @property_flush[:interfaces] = value
  end
  
  def min_links=(value)
-     conn = Connect.new('./config.yml')
-     params = {'lag_id' => resource[:lag_id], 
-               'min_links' => resource[:min_links]}
-     resp = Lag.update_lag(conn, resource[:lag_id], params)
-     @property_hash[:min_links] = value
+     @property_flush[:min_links] = value
+ end
+ 
+ def flush 
+     if @property_flush
+       params = {'lag_id' => resource[:lag_id], 
+                 'min_links' => resource[:min_links],
+                 'interfaces' => resource[:interfaces]}
+       resp = Lag.update_lag(conn, resource[:lag_id], params)
+     end
+     @property_hash = resource.to_hash
  end
  
  def create
