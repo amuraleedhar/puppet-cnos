@@ -33,14 +33,14 @@ Puppet::Type.type(:cnos_vlan).provide :vlan do
 	     end
      end
  end
-
+=begin
  def initilialize(value={})
      super(value)
      @property_flush = {}
  end
-
+=end
  def flush
-     if @property_hash
+     if @property_hash != {}
        conn = Connect.new('./config.yml')
        params = {'vlan_name' => resource[:vlan_name], 
                  'admin_state' => resource[:admin_state]}
@@ -56,6 +56,7 @@ Puppet::Type.type(:cnos_vlan).provide :vlan do
                "admin_state" => resource[:admin_state]
               }
      Vlan.create_vlan(conn, params)
+     @property_hash.clear
  end
 
  def exists?
@@ -64,5 +65,6 @@ Puppet::Type.type(:cnos_vlan).provide :vlan do
 
  def destroy
      Vlan.delete_vlan(conn, resource[:vlan_id])
+     @property_hash.clear
  end
 end

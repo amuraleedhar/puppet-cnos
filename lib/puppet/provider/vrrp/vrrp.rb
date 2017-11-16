@@ -8,7 +8,7 @@ Puppet::Type.type(:vrrp).provide :vrrp do
  #confine :feature => :LenovoCheflib
  confine operatingsystem: [:ubuntu]
  
- #mk_resource_methods
+ mk_resource_methods
  conn = Connect.new('./config.yml')
 
  def self.instances
@@ -26,7 +26,6 @@ Puppet::Type.type(:vrrp).provide :vrrp do
                       preempt: item['preempt'],
                       prio: item['prio'],
                       admin_state: item['admin_state'],
-		      oper_state: item['oper_state'],
                       track_if: item['track_if'],
                       accept_mode: item['accept_mode'],
                       switch_back_delay: item['switch_back_delay'],
@@ -34,16 +33,38 @@ Puppet::Type.type(:vrrp).provide :vrrp do
      end
      return provider_val
  end
- 
  def self.prefetch(resources)
      vrrps = instances
      resources.keys.each do |name|
+             puts resources.keys
 	     if provider = vrrps.find { |vrrp| vrrp.name == name }
 		resources[name].provider = provider
 	     end
      end
  end
  
+ def flush
+     Puppet.debug('>>>>>>>>>>>>>>>>>>>>>>>>>>flush')
+     if @property_hash != {}
+       conn = Connect.new('./config.yml')
+       params = {'vr_id' => resource[:vr_id], 
+               'if_name' => resource[:if_name],
+               'ad_intvl' => resource[:ad_intvl],
+               'ip_addr' => resource[:ip_addr],
+               'preempt' => resource[:preempt],
+               'prio' => resource[:prio],
+               'admin_state' => resource[:admin_state],
+               'track_if' => resource[:track_if],
+               'accept_mode' => resource[:accept_mode],
+               'switch_back_delay' => resource[:switch_back_delay],
+               'v2_compt' => resource[:v2_compt],
+               }
+       puts params
+       resp = Vrrp.update_vrrp_intf_vrid(conn, resource[:if_name], resource[:vr_id], params)
+     end
+     @property_hash = resource.to_hash
+ end
+=begin
  def vr_id
      @property_hash[:vr_id]
  end 
@@ -70,10 +91,6 @@ Puppet::Type.type(:vrrp).provide :vrrp do
 
  def admin_state
      @property_hash[:admin_state]
- end 
-
- def oper_state
-     @property_hash[:oper_state]
  end 
 
  def track_if
@@ -181,7 +198,7 @@ Puppet::Type.type(:vrrp).provide :vrrp do
      resp = Vrrp.update_vrrp_intf_vrid(conn, resource[:if_name], resource[:vr_id], params)
      @property_hash[:v2_compt] = value
  end
- 
+=end
  def create
      conn = Connect.new('./config.yml')
      params = {"if_name" => resource[:if_name],
@@ -196,7 +213,6 @@ Puppet::Type.type(:vrrp).provide :vrrp do
                "switch_back_delay" => resource[:switch_back_delay],
                "v2_compt" => resource[:v2_compt]
               }
-     puts params
      Vrrp.create_vrrp_intf(conn, resource[:if_name], params)
  end
 

@@ -60,7 +60,7 @@ Puppet::Type.newtype(:vrrp) do
  end
  newproperty(:preempt) do
   desc 'one of yes or no'
-  newvalues(:yes, :no)
+  #newvalues('yes', 'no')
  end
  
  newproperty(:prio) do
@@ -80,14 +80,9 @@ Puppet::Type.newtype(:vrrp) do
  
  newproperty(:admin_state) do
   desc 'one of up or down'
-  newvalues(:up, :down)
+  #newvalues('up', 'down')
  end
 
- newproperty(:oper_state) do
-  desc 'one of master, backup, init'
-  newvalues(:master, :backup, :init)
- end
- 
  newproperty(:track_if) do
   desc 'Interface name'
 
@@ -95,12 +90,12 @@ Puppet::Type.newtype(:vrrp) do
  
  newproperty(:accept_mode) do
   desc 'one of yes or no'
-  newvalues(:yes, :no)
+  newvalues('yes', 'no')
  end
  
  newproperty(:v2_compt) do
   desc 'one of yes, no'
-  newvalues(:yes, :no)
+  #newvalues('yes', 'no')
  end
 
  newproperty(:switch_back_delay) do

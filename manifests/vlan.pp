@@ -1,5 +1,4 @@
-cnos_vlan { '10':
+cnos_vlan { '11':
 ensure => 'present',
 admin_state => 'up',
-vlan_name => 'test100',}
-
+vlan_name => 'test11',}
