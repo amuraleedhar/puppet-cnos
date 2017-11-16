@@ -1,7 +1,6 @@
 require 'puppet/type'
 require 'cnos-rbapi'
 require 'cnos-rbapi/vlag'
-require 'pry'
 
 Puppet::Type.type(:vlag).provide :vlag do
  desc 'Manage Vlag on Lenovo CNOS. Requires cnos-rbapi'
@@ -9,13 +8,12 @@ Puppet::Type.type(:vlag).provide :vlag do
  #confine :feature => :LenovoCheflib
  confine operatingsystem: [:ubuntu]
  
- #mk_resource_methods
+ mk_resource_methods
 
  def self.instances
      provider_val = []
      conn = Connect.new('./config.yml')
      resp = Vlag.get_all_vlag(conn)
-     i = 1
      return 'no vlags' if !resp
      resp.each do  |item|
       provider_val << new(name: item['inst_id'],
@@ -36,29 +34,19 @@ Puppet::Type.type(:vlag).provide :vlag do
      end
  end
  
- def status
-     @property_hash[:status]
- end 
- 
- def port_aggregator
-     @property_hash[:port_aggregator]
-     
- end 
-
- def status=(value)
-     conn = Connect.new('./config.yml')
-     params = {'port_aggregator' => resource[:port_aggregator], 
-               'status' => resource[:status]}
-     resp = Vlan.update_vlag_inst(conn, resource[:inst_id], params)
-     @property_hash[:status] = value
+ def initilialize(value={})
+     super(value)
+     @property_flush = {}
  end
- 
- def port_aggregator=(value)
-     conn = Connect.new('./config.yml')
-     params = {'port_aggregator' => resource[:port_aggregator], 
-               'status' => resource[:status]}
-     resp = Vlan.update_vlag_inst(conn, resource[:inst_id], params)
-     @property_hash[:port_aggregator] = value
+
+ def flush 
+     if @property_hash
+       conn = Connect.new('./config.yml')
+       params = {'port_aggregator' => resource[:port_aggregator],
+                 'status' => resource[:status]}
+       resp = Vlag.update_vlag_inst(conn, resource[:inst_id], params)
+     end
+     @property_hash = resource.to_hash
  end
  
  def create

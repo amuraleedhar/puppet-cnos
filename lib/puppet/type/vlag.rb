@@ -43,6 +43,6 @@ Puppet::Type.newtype(:vlag) do
  
  newproperty(:status) do
   desc 'one of up or down'
-  newvalues(:enable, :disable)
+#  newvalues('enable', 'disable')
  end
 end 

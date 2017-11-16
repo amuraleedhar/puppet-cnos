@@ -4,7 +4,7 @@ interfaces =>  [ {
                 "lacp_prio" => 32768,
                 "lacp_timeout"=> "long",
                 "lag_mode"=> "lacp_active",
-                "if_name"=> "Ethernet1/24"
+                "if_name"=> "Ethernet1/23"
             }],
-min_links => 2,
+min_links => 1,
 }

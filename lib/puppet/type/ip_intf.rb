@@ -12,6 +12,8 @@ Puppet::Type.newtype(:ip_intf) do
              vlans => "<admin_state>"   
        	    }
           }'
+ ensurable
+
  #Parameters
  newparam(:if_name, namevar: true) do
   desc 'Ethernet interface name'
@@ -23,7 +25,6 @@ Puppet::Type.newtype(:ip_intf) do
  
  #Properties 
  newproperty(:bridge_port) do
-  newvalues(:yes, :no)
   desc 'one of yes/no'
  end 
  
