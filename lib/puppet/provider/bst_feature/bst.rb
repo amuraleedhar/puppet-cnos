@@ -48,9 +48,9 @@ Puppet::Type.type(:bst_feature).provide :bst_feature do
     resp = Telemetry.get_bst_feature(conn)
     resp['async-full-report']
   end
-
-  def bst_enable=(value)
-    conn = Connect.new('./config.yml')
+ 
+  def params_setup
+    params = {}
     params =
       {
         "collection-interval" => resource[:collection_interval],
@@ -61,96 +61,49 @@ Puppet::Type.type(:bst_feature).provide :bst_feature do
         "trigger-rate-limit-interval" => resource[:trigger_rate_limit_interval],
         "bst-enable" => resource[:bst_enable]
       }
+   return params
+  end
+
+  def bst_enable=(value)
+    conn = Connect.new('./config.yml')
+    params = params_setup
+    puts params
     resp = Telemetry.set_bst_feature(conn, params)
   end
 
   def send_async_reports=(value)
     conn = Connect.new('./config.yml')
-    params =
-      {
-        "collection-interval" => resource[:collection_interval],
-        "send-async-reports" => resource[:send_async_reports],
-        "send-snapshot-on-trigger" => resource[:send_snapshot_on_trigger],
-        "trigger-rate-limit" => resource[:trigger_rate_limit],
-        "async-full-report" => resource[:async_full_report],
-        "trigger-rate-limit-interval" => resource[:trigger_rate_limit_interval],
-        "bst-enable" => resource[:bst_enable]
-      }
+    params = params_setup
     resp = Telemetry.set_bst_feature(conn, params)
   end
 
   def collection_interval=(value)
     conn = Connect.new('./config.yml')
-    params =
-      {
-        "collection-interval" => resource[:collection_interval],
-        "send-async-reports" => resource[:send_async_reports],
-        "send-snapshot-on-trigger" => resource[:send_snapshot_on_trigger],
-        "trigger-rate-limit" => resource[:trigger_rate_limit],
-        "async-full-report" => resource[:async_full_report],
-        "trigger-rate-limit-interval" => resource[:trigger_rate_limit_interval],
-        "bst-enable" => resource[:bst_enable]
-      }
+    params = params_setup
     resp = Telemetry.set_bst_feature(conn, params)
   end
 
   def trigger_rate_limit_interval=(value)
     conn = Connect.new('./config.yml')
-    params =
-      {
-        "collection-interval" => resource[:collection_interval],
-        "send-async-reports" => resource[:send_async_reports],
-        "send-snapshot-on-trigger" => resource[:send_snapshot_on_trigger],
-        "trigger-rate-limit" => resource[:trigger_rate_limit],
-        "async-full-report" => resource[:async_full_report],
-        "trigger-rate-limit-interval" => resource[:trigger_rate_limit_interval],
-        "bst-enable" => resource[:bst_enable]
-      }
+    params = params_setup
     resp = Telemetry.set_bst_feature(conn, params)
   end
 
   def send_snapshot_on_trigger=(value)
     conn = Connect.new('./config.yml')
-    params =
-      {
-        "collection-interval" => resource[:collection_interval],
-        "send-async-reports" => resource[:send_async_reports],
-        "send-snapshot-on-trigger" => resource[:send_snapshot_on_trigger],
-        "trigger-rate-limit" => resource[:trigger_rate_limit],
-        "async-full-report" => resource[:async_full_report],
-        "trigger-rate-limit-interval" => resource[:trigger_rate_limit_interval],
-        "bst-enable" => resource[:bst_enable]
-      }
+    params = params_setup
     resp = Telemetry.set_bst_feature(conn, params)
   end
 
   def async_full_report=(value)
     conn = Connect.new('./config.yml')
-    params =
-      {
-        "collection-interval" => resource[:collection_interval],
-        "send-async-reports" => resource[:send_async_reports],
-        "send-snapshot-on-trigger" => resource[:send_snapshot_on_trigger],
-        "trigger-rate-limit" => resource[:trigger_rate_limit],
-        "async-full-report" => resource[:async_full_report],
-        "trigger-rate-limit-interval" => resource[:trigger_rate_limit_interval],
-        "bst-enable" => resource[:bst_enable]
-      }
+    params = params_setup
     resp = Telemetry.set_bst_feature(conn, params)
   end
 
   def trigger_rate_limit=(value)
     conn = Connect.new('./config.yml')
-    params =
-      {
-        "collection-interval" => resource[:collection_interval],
-        "send-async-reports" => resource[:send_async_reports],
-        "send-snapshot-on-trigger" => resource[:send_snapshot_on_trigger],
-        "trigger-rate-limit" => resource[:trigger_rate_limit],
-        "async-full-report" => resource[:async_full_report],
-        "trigger-rate-limit-interval" => resource[:trigger_rate_limit_interval],
-        "bst-enable" => resource[:bst_enable]
-      }
+    params = params_setup
     resp = Telemetry.set_bst_feature(conn, params)
   end
 end

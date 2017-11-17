@@ -73,9 +73,8 @@ Puppet::Type.type(:bst_track).provide :bst_track do
     puts "here"
     resp['track-peak-stats']
   end
-
-  def track_peak_stats=(value)
-    conn = Connect.new('./config.yml')
+ 
+  def params_setup
     params =
       {
         "track-egress-port-service-pool" => resource[:track_egress_port_service_pool],
@@ -90,196 +89,72 @@ Puppet::Type.type(:bst_track).provide :bst_track do
         "track-egress-service-pool" => resource[:track_egress_service_pool],
         "track-device" => resource[:track_device]
       }
+    return params
+  end
+
+  def track_peak_stats=(value)
+    conn = Connect.new('./config.yml')
+    params = params_setup
     resp = Telemetry.set_bst_tracking(conn, params)
   end
 
   def track_egress_port_service_pool=(value)
     conn = Connect.new('./config.yml')
-    params =
-      {
-        "track-egress-port-service-pool" => resource[:track_egress_port_service_pool],
-        "track-egress-uc-queue" => resource[:track_egress_uc_queue],
-        "track-egress-rqe-queue" => resource[:track_egress_cpu_queue],
-        "track-egress-cpu-queue" => resource[:track_egress_cpu_queue],
-        "track-ingress-port-service-pool" => resource[:track_ingress_port_service_pool],
-        "track-ingress-service-pool" => resource[:track_ingress_service_pool],
-        "track-egress-mc-queue" => resource[:track_egress_mc_queue],
-        "track-peak-stats" => resource[:track_peak_stats],
-        "track-ingress-port-priority-group" => resource[:track_ingress_port_priority_group],
-        "track-egress-service-pool" => resource[:track_egress_service_pool],
-        "track-device" => resource[:track_device]
-      }
+    params = params_setup
     resp = Telemetry.set_bst_tracking(conn, params)
   end
 
   def track_egress_uc_queue=(value)
     conn = Connect.new('./config.yml')
-    params =
-      {
-        "track-egress-port-service-pool" => resource[:track_egress_port_service_pool],
-        "track-egress-uc-queue" => resource[:track_egress_uc_queue],
-        "track-egress-rqe-queue" => resource[:track_egress_cpu_queue],
-        "track-egress-cpu-queue" => resource[:track_egress_cpu_queue],
-        "track-ingress-port-service-pool" => resource[:track_ingress_port_service_pool],
-        "track-ingress-service-pool" => resource[:track_ingress_service_pool],
-        "track-egress-mc-queue" => resource[:track_egress_mc_queue],
-        "track-peak-stats" => resource[:track_peak_stats],
-        "track-ingress-port-priority-group" => resource[:track_ingress_port_priority_group],
-        "track-egress-service-pool" => resource[:track_egress_service_pool],
-        "track-device" => resource[:track_device]
-      }
+    params = params_setup
     resp = Telemetry.set_bst_tracking(conn, params)
   end
 
   def track_egress_rqe_queue=(value)
     conn = Connect.new('./config.yml')
-    params =
-      {
-        "track-egress-port-service-pool" => resource[:track_egress_port_service_pool],
-        "track-egress-uc-queue" => resource[:track_egress_uc_queue],
-        "track-egress-rqe-queue" => resource[:track_egress_cpu_queue],
-        "track-egress-cpu-queue" => resource[:track_egress_cpu_queue],
-        "track-ingress-port-service-pool" => resource[:track_ingress_port_service_pool],
-        "track-ingress-service-pool" => resource[:track_ingress_service_pool],
-        "track-egress-mc-queue" => resource[:track_egress_mc_queue],
-        "track-peak-stats" => resource[:track_peak_stats],
-        "track-ingress-port-priority-group" => resource[:track_ingress_port_priority_group],
-        "track-egress-service-pool" => resource[:track_egress_service_pool],
-        "track-device" => resource[:track_device]
-      }
+    params = params_setup
     resp = Telemetry.set_bst_tracking(conn, params)
   end
 
   def track_egress_cpu_queue=(value)
     conn = Connect.new('./config.yml')
-    params =
-      {
-        "track-egress-port-service-pool" => resource[:track_egress_port_service_pool],
-        "track-egress-uc-queue" => resource[:track_egress_uc_queue],
-        "track-egress-rqe-queue" => resource[:track_egress_cpu_queue],
-        "track-egress-cpu-queue" => resource[:track_egress_cpu_queue],
-        "track-ingress-port-service-pool" => resource[:track_ingress_port_service_pool],
-        "track-ingress-service-pool" => resource[:track_ingress_service_pool],
-        "track-egress-mc-queue" => resource[:track_egress_mc_queue],
-        "track-peak-stats" => resource[:track_peak_stats],
-        "track-ingress-port-priority-group" => resource[:track_ingress_port_priority_group],
-        "track-egress-service-pool" => resource[:track_egress_service_pool],
-        "track-device" => resource[:track_device]
-      }
+    params = params_setup
     resp = Telemetry.set_bst_tracking(conn, params)
   end
 
   def track_ingress_port_service_pool=(value)
     conn = Connect.new('./config.yml')
-    params =
-      {
-        "track-egress-port-service-pool" => resource[:track_egress_port_service_pool],
-        "track-egress-uc-queue" => resource[:track_egress_uc_queue],
-        "track-egress-rqe-queue" => resource[:track_egress_cpu_queue],
-        "track-egress-cpu-queue" => resource[:track_egress_cpu_queue],
-        "track-ingress-port-service-pool" => resource[:track_ingress_port_service_pool],
-        "track-ingress-service-pool" => resource[:track_ingress_service_pool],
-        "track-egress-mc-queue" => resource[:track_egress_mc_queue],
-        "track-peak-stats" => resource[:track_peak_stats],
-        "track-ingress-port-priority-group" => resource[:track_ingress_port_priority_group],
-        "track-egress-service-pool" => resource[:track_egress_service_pool],
-        "track-device" => resource[:track_device]
-      }
+    params = params_setup
     resp = Telemetry.set_bst_tracking(conn, params)
   end
 
   def track_ingress_service_pool=(value)
     conn = Connect.new('./config.yml')
-    params =
-      {
-        "track-egress-port-service-pool" => resource[:track_egress_port_service_pool],
-        "track-egress-uc-queue" => resource[:track_egress_uc_queue],
-        "track-egress-rqe-queue" => resource[:track_egress_cpu_queue],
-        "track-egress-cpu-queue" => resource[:track_egress_cpu_queue],
-        "track-ingress-port-service-pool" => resource[:track_ingress_port_service_pool],
-        "track-ingress-service-pool" => resource[:track_ingress_service_pool],
-        "track-egress-mc-queue" => resource[:track_egress_mc_queue],
-        "track-peak-stats" => resource[:track_peak_stats],
-        "track-ingress-port-priority-group" => resource[:track_ingress_port_priority_group],
-        "track-egress-service-pool" => resource[:track_egress_service_pool],
-        "track-device" => resource[:track_device]
-      }
+    params = params_setup
     resp = Telemetry.set_bst_tracking(conn, params)
   end
 
   def track_egress_mc_queue=(value)
     conn = Connect.new('./config.yml')
-    params =
-      {
-        "track-egress-port-service-pool" => resource[:track_egress_port_service_pool],
-        "track-egress-uc-queue" => resource[:track_egress_uc_queue],
-        "track-egress-rqe-queue" => resource[:track_egress_cpu_queue],
-        "track-egress-cpu-queue" => resource[:track_egress_cpu_queue],
-        "track-ingress-port-service-pool" => resource[:track_ingress_port_service_pool],
-        "track-ingress-service-pool" => resource[:track_ingress_service_pool],
-        "track-egress-mc-queue" => resource[:track_egress_mc_queue],
-        "track-peak-stats" => resource[:track_peak_stats],
-        "track-ingress-port-priority-group" => resource[:track_ingress_port_priority_group],
-        "track-egress-service-pool" => resource[:track_egress_service_pool],
-        "track-device" => resource[:track_device]
-      }
+    params = params_setup
     resp = Telemetry.set_bst_tracking(conn, params)
   end
 
   def track_ingress_port_priority=(value)
     conn = Connect.new('./config.yml')
-    params =
-      {
-        "track-egress-port-service-pool" => resource[:track_egress_port_service_pool],
-        "track-egress-uc-queue" => resource[:track_egress_uc_queue],
-        "track-egress-rqe-queue" => resource[:track_egress_cpu_queue],
-        "track-egress-cpu-queue" => resource[:track_egress_cpu_queue],
-        "track-ingress-port-service-pool" => resource[:track_ingress_port_service_pool],
-        "track-ingress-service-pool" => resource[:track_ingress_service_pool],
-        "track-egress-mc-queue" => resource[:track_egress_mc_queue],
-        "track-peak-stats" => resource[:track_peak_stats],
-        "track-ingress-port-priority-group" => resource[:track_ingress_port_priority_group],
-        "track-egress-service-pool" => resource[:track_egress_service_pool],
-        "track-device" => resource[:track_device]
-      }
+    params = params_setup
     resp = Telemetry.set_bst_tracking(conn, params)
   end
 
   def track_egress_service_pool=(value)
     conn = Connect.new('./config.yml')
-    params =
-      {
-        "track-egress-port-service-pool" => resource[:track_egress_port_service_pool],
-        "track-egress-uc-queue" => resource[:track_egress_uc_queue],
-        "track-egress-rqe-queue" => resource[:track_egress_cpu_queue],
-        "track-egress-cpu-queue" => resource[:track_egress_cpu_queue],
-        "track-ingress-port-service-pool" => resource[:track_ingress_port_service_pool],
-        "track-ingress-service-pool" => resource[:track_ingress_service_pool],
-        "track-egress-mc-queue" => resource[:track_egress_mc_queue],
-        "track-peak-stats" => resource[:track_peak_stats],
-        "track-ingress-port-priority-group" => resource[:track_ingress_port_priority_group],
-        "track-egress-service-pool" => resource[:track_egress_service_pool],
-        "track-device" => resource[:track_device]
-      }
+    params = params_setup
     resp = Telemetry.set_bst_tracking(conn, params)
   end
 
   def track_device=(value)
     conn = Connect.new('./config.yml')
-    params =
-      {
-        "track-egress-port-service-pool" => resource[:track_egress_port_service_pool],
-        "track-egress-uc-queue" => resource[:track_egress_uc_queue],
-        "track-egress-rqe-queue" => resource[:track_egress_cpu_queue],
-        "track-egress-cpu-queue" => resource[:track_egress_cpu_queue],
-        "track-ingress-port-service-pool" => resource[:track_ingress_port_service_pool],
-        "track-ingress-service-pool" => resource[:track_ingress_service_pool],
-        "track-egress-mc-queue" => resource[:track_egress_mc_queue],
-        "track-peak-stats" => resource[:track_peak_stats],
-        "track-ingress-port-priority-group" => resource[:track_ingress_port_priority_group],
-        "track-egress-service-pool" => resource[:track_egress_service_pool],
-        "track-device" => resource[:track_device]
-      }
+    params = params_setup
     resp = Telemetry.set_bst_tracking(conn, params)
   end
 end
