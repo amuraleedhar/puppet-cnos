@@ -34,16 +34,22 @@ Puppet::Type.type(:vlag).provide :vlag do
     end
   end
 
-  def initilialize(value = {})
-    super(value)
-    @property_flush = {}
+  def params_setup
+    params = {}
+    conn = Connect.new('./config.yml')
+    if resource[:status] != nil
+      params['status'] = resource[:status]
+    end
+    if resource[:port_aggregator] != nil
+      params['port_aggregator'] = resource[:port_aggregator]
+    end
+    return params
   end
 
   def flush
     if @property_hash
       conn = Connect.new('./config.yml')
-      params = { 'port_aggregator' => resource[:port_aggregator],
-                 'status' => resource[:status] }
+      params = params_setup
       resp = Vlag.update_vlag_inst(conn, resource[:inst_id], params)
     end
     @property_hash = resource.to_hash

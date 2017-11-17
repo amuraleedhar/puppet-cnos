@@ -47,29 +47,26 @@ Puppet::Type.type(:ip_intf).provide :ip_intf do
 
   def params_setup
     params = {}
-    if @property_hash != {}
-      conn = Connect.new('./config.yml')
-      params['if_name'] = resource[:if_name]
-      if resource[:bridge_port] != nil
-        params['bridge_port'] = resource[:bridge_port]
-      end
-      if resource[:mtu] != nil
-        params['mtu'] = resource[:mtu]
-      end
-      if resource[:ip_addr] != nil
-        params['ip_addr'] = resource[:ip_addr]
-      end
-      if resource[:ip_prefix_len] != nil
-        params['ip_prefix_len'] = resource[:ip_prefix_len]
-      end
-      if resource[:vrf_name] != nil
-        params['vrf_name'] = resource[:vrf_name]
-      end
-      if resource[:admin_state] != nil
-        params['admin_state'] = resource[:admin_state]
-      end
-      return params
+    params['if_name'] = resource[:if_name]
+    if resource[:bridge_port] != nil
+      params['bridge_port'] = resource[:bridge_port]
     end
+    if resource[:mtu] != nil
+      params['mtu'] = resource[:mtu]
+    end
+    if resource[:ip_addr] != nil
+      params['ip_addr'] = resource[:ip_addr]
+    end
+    if resource[:ip_prefix_len] != nil
+      params['ip_prefix_len'] = resource[:ip_prefix_len]
+    end
+    if resource[:vrf_name] != nil
+      params['vrf_name'] = resource[:vrf_name]
+    end
+    if resource[:admin_state] != nil
+      params['admin_state'] = resource[:admin_state]
+    end
+    return params
   end
 
   def exists?

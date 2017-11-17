@@ -38,24 +38,29 @@ Puppet::Type.type(:vlan_intf).provide :vlan do
   def exists?
     @property_hash[:ensure] == :present
   end
+ 
+  def params_setup
+    params = {}
+    params['if_name'] = resource[:if_name]
+    if resource[:pvid] != nil
+      params['pvid'] = resource[:pvid]
+    end
+    if resource[:vlans] != nil
+      params['vlans'] = resource[:vlans]
+    end
+    if resource[:bridgeport_mode] != nil
+      params['bridgeport_mode'] = resource[:bridgeport_mode]
+    end
+    return params
+  end
 
   def flush
-    params = {}
     if @property_hash != {}
-      puts @property_hash
       conn = Connect.new('./config.yml')
-      params['if_name'] = resource[:if_name]
-      if resource[:pvid] != nil
-        params['pvid'] = resource[:pvid]
-      end
-      if resource[:vlans] != nil
-        params['vlans'] = resource[:vlans]
-      end
-      if resource[:bridgeport_mode] != nil
-        params['bridgeport_mode'] = resource[:bridgeport_mode]
-      end
+      params = params_setup
       resp = VlanIntf.update_vlan_intf(conn, resource[:if_name], params)
     end
     @property_hash = resource.to_hash
   end
+
 end

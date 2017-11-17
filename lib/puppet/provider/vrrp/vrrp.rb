@@ -37,181 +37,58 @@ Puppet::Type.type(:vrrp).provide :vrrp do
   def self.prefetch(resources)
     vrrps = instances
     resources.keys.each do |name|
-      puts resources.keys
       if provider = vrrps.find { |vrrp| vrrp.name == name }
         resources[name].provider = provider
       end
     end
   end
 
+  def params_setup
+    params = {}
+    params['if_name'] = resource[:if_name]
+    params['vr_id'] = resource[:vr_id]
+    if resource[:ad_intvl] != nil
+      params['ad_intvl'] = resource[:ad_intvl]
+    end
+    if resource[:ip_addr] != nil
+      params['ip_addr'] = resource[:ip_addr]
+    end
+    if resource[:preempt] != nil
+      params['preempt'] = resource[:preempt]
+    end
+    if resource[:prio] != nil
+      params['prio'] = resource[:prio]
+    end
+    if resource[:admin_state] != nil
+      params['admin_state'] = resource[:admin_state]
+    end
+    if resource[:track_if] != nil
+      params['track_if'] = resource[:track_if]
+    end
+    if resource[:accept_mode] != nil
+      params['accept_mode'] = resource[:accept_mode]
+    end
+    if resource[:switch_back_delay] != nil
+      params['switch_back_delay'] = resource[:switch_back_delay]
+    end
+    if resource[:v2_compt] != nil
+      params['v2_compt'] = resource[:v2_compt]
+    end
+    return params
+  end
+
   def flush
-    Puppet.debug('>>>>>>>>>>>>>>>>>>>>>>>>>>flush')
     if @property_hash != {}
       conn = Connect.new('./config.yml')
-      params = { 'vr_id' => resource[:vr_id],
-                 'if_name' => resource[:if_name],
-                 'ad_intvl' => resource[:ad_intvl],
-                 'ip_addr' => resource[:ip_addr],
-                 'preempt' => resource[:preempt],
-                 'prio' => resource[:prio],
-                 'admin_state' => resource[:admin_state],
-                 'track_if' => resource[:track_if],
-                 'accept_mode' => resource[:accept_mode],
-                 'switch_back_delay' => resource[:switch_back_delay],
-                 'v2_compt' => resource[:v2_compt], }
-      puts params
+      params = params_setup
       resp = Vrrp.update_vrrp_intf_vrid(conn, resource[:if_name], resource[:vr_id], params)
     end
     @property_hash = resource.to_hash
   end
-=begin
- def vr_id
-     @property_hash[:vr_id]
- end
-
- def if_name
-     @property_hash[:if_name]
- end
-
- def ip_addr
-     @property_hash[:ip_addr]
- end
-
- def ad_intvl
-     @property_hash[:ad_intvl]
- end
-
- def preempt
-     @property_hash[:preempt]
- end
-
- def prio
-     @property_hash[:prio]
- end
-
- def admin_state
-     @property_hash[:admin_state]
- end
-
- def track_if
-     @property_hash[:track_if]
- end
-
- def accept_mode
-     @property_hash[:accept_mode]
- end
-
- def switch_back_delay
-     @property_hash[:switch_back_delay]
- end
-
- def v2_compt
-     @property_hash[:v2_compt]
- end
-
- def ad_intvl=(value)
-     conn = Connect.new('./config.yml')
-     params = {'vr_id' => resource[:vr_id],
-               'if_name' => resource[:if_name],
-               'ad_intvl' => resource[:ad_intvl]
-               }
-     resp = Vrrp.update_vrrp_intf_vrid(conn, resource[:if_name], resource[:vr_id], params)
-     @property_hash[:ad_intvl] = value
- end
-
- def ip_addr=(value)
-     conn = Connect.new('./config.yml')
-     params = {'vr_id' => resource[:vr_id],
-               'if_name' => resource[:if_name],
-               'ip_addr' => resource[:ip_addr]
-               }
-     resp = Vrrp.update_vrrp_intf_vrid(conn, resource[:if_name], resource[:vr_id], params)
-     @property_hash[:ip_addr] = value
- end
-
- def prio=(value)
-     conn = Connect.new('./config.yml')
-     params = {'vr_id' => resource[:vr_id],
-               'if_name' => resource[:if_name],
-               'prio' => resource[:prio]
-               }
-     resp = Vrrp.update_vrrp_intf_vrid(conn, resource[:if_name], resource[:vr_id], params)
-     @property_hash[:prio] = value
- end
-
- def track_if=(value)
-     conn = Connect.new('./config.yml')
-     params = {'vr_id' => resource[:vr_id],
-               'if_name' => resource[:if_name],
-               'track_if' => resource[:track_if]
-               }
-     resp = Vrrp.update_vrrp_intf_vrid(conn, resource[:if_name], resource[:vr_id], params)
-     @property_hash[:track_if] = value
- end
-
- def preempt=(value)
-     conn = Connect.new('./config.yml')
-     params = {'vr_id' => resource[:vr_id],
-               'if_name' => resource[:if_name],
-               'preempt' => resource[:preempt]
-               }
-     resp = Vrrp.update_vrrp_intf_vrid(conn, resource[:if_name], resource[:vr_id], params)
-     @property_hash[:preempt] = value
- end
-
- def admin_state=(value)
-     conn = Connect.new('./config.yml')
-     params = {'vr_id' => resource[:vr_id],
-               'if_name' => resource[:if_name],
-               'admin_state' => resource[:admin_state]
-               }
-     resp = Vrrp.update_vrrp_intf_vrid(conn, resource[:if_name], resource[:vr_id], params)
-     @property_hash[:admin_state] = value
- end
-
- def switch_back_delay=(value)
-     conn = Connect.new('./config.yml')
-     params = {'vr_id' => resource[:vr_id],
-               'if_name' => resource[:if_name],
-               'switch_back_delay' => resource[:switch_back_delay]
-               }
-     resp = Vrrp.update_vrrp_intf_vrid(conn, resource[:if_name], resource[:vr_id], params)
-     @property_hash[:switch_back_delay] = value
- end
-
- def accept_mode=(value)
-     conn = Connect.new('./config.yml')
-     params = {'vr_id' => resource[:vr_id],
-               'if_name' => resource[:if_name],
-               'accept_mode' => resource[:accept_mode]
-               }
-     resp = Vrrp.update_vrrp_intf_vrid(conn, resource[:if_name], resource[:vr_id], params)
-     @property_hash[:accept_mode] = value
- end
-
- def v2_compt=(value)
-     conn = Connect.new('./config.yml')
-     params = {'vr_id' => resource[:vr_id],
-               'if_name' => resource[:if_name],
-               'v2_compt' => resource[:v2_compt]
-               }
-     resp = Vrrp.update_vrrp_intf_vrid(conn, resource[:if_name], resource[:vr_id], params)
-     @property_hash[:v2_compt] = value
- end
-=end
+  
   def create
     conn = Connect.new('./config.yml')
-    params = { "if_name" => resource[:if_name],
-               "vr_id" => resource[:vr_id],
-               "ip_addr" => resource[:ip_addr],
-               "ad_intvl" => resource[:ad_intvl],
-               "preempt" => resource[:preempt],
-               "prio" => resource[:prio],
-               "admin_state" => resource[:admin_state],
-               "track_if" => resource[:track_if],
-               "accept_mode" => resource[:accept_mode],
-               "switch_back_delay" => resource[:switch_back_delay],
-               "v2_compt" => resource[:v2_compt] }
+    params = params_setup
     Vrrp.create_vrrp_intf(conn, resource[:if_name], params)
   end
 
