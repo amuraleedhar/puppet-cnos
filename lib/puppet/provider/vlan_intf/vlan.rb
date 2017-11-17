@@ -38,7 +38,7 @@ Puppet::Type.type(:vlan_intf).provide :vlan do
   def exists?
     @property_hash[:ensure] == :present
   end
- 
+
   def params_setup
     params = {}
     params['if_name'] = resource[:if_name]
@@ -62,5 +62,4 @@ Puppet::Type.type(:vlan_intf).provide :vlan do
     end
     @property_hash = resource.to_hash
   end
-
 end

@@ -85,7 +85,7 @@ Puppet::Type.type(:vrrp).provide :vrrp do
     end
     @property_hash = resource.to_hash
   end
-  
+
   def create
     conn = Connect.new('./config.yml')
     params = params_setup

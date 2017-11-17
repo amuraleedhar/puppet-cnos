@@ -37,7 +37,7 @@ Puppet::Type.type(:lag).provide :lag do
     super(value)
     @property_flush = {}
   end
-  
+
   def params_setup
     params = {}
     if @property_hash != {}
