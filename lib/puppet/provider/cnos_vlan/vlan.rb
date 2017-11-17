@@ -34,18 +34,18 @@ Puppet::Type.type(:cnos_vlan).provide :vlan do
     end
   end
 
-=begin
- def initilialize(value={})
-     super(value)
-     @property_flush = {}
- end
-=end
   def flush
     Puppet.debug(">>>>>>>flush")
+    params = {}
     if @property_hash != {}
+      puts @property_hash
       conn = Connect.new('./config.yml')
-      params = { 'vlan_name' => resource[:vlan_name],
-                 'admin_state' => resource[:admin_state] }
+      if resource[:vlan_name] != nil
+        params['vlan_name'] = resource[:vlan_name]
+      end
+      if resource[:admin_state] != nil
+        params['admin_state'] = resource[:admin_state]
+      end
       resp = Vlan.update_vlan(conn, resource[:vlan_id], params)
     end
     @property_hash = resource.to_hash

@@ -8,91 +8,54 @@ Puppet::Type.type(:vlan_intf).provide :vlan do
   # confine :feature => :LenovoCheflib
   confine operatingsystem: [:ubuntu]
 
-  # mk_resource_methods
-  conn = Connect.new('./config.yml')
-=begin
- def self.instances
-     puts "here"
+  mk_resource_methods
+
+  def self.instances
     conn = Connect.new('./config.yml')
-     provider_val = []
-     conn = Connect.new('./config.yml')
-     resp = VlanIntf.get_all_vlan_intf(conn)
-     return 'no vlans' if !resp
-     resp.each do  |item|
+    provider_val = []
+    conn = Connect.new('./config.yml')
+    resp = VlanIntf.get_all_vlan_intf(conn)
+    return 'no vlans' if !resp
+    resp.each do |item|
       provider_val << new(:name => item['if_name'],
-                      :bridgeport_mode => item['bridgeport_mode'],
-                      :ensure => :present,
-                      :vlans => item['vlans'],
-                      :pvid => item['pvid'])
-     end
-     return provider_val
+                          :bridgeport_mode => item['bridgeport_mode'],
+                          :ensure => :present,
+                          :vlans => item['vlans'],
+                          :pvid => item['pvid'])
+    end
+    return provider_val
  end
 
- def self.prefetch(resources)
-     puts "here1"
-     vlans = instances
-     resources.keys.each do |name|
-       if provider = vlans.find { |vlan| vlan.name == name }
-    resources[name].provider = provider
-       end
-     end
- end
- def exists?
-     puts "exists"
-     conn = Connect.new('./config.yml')
-     resp = VlanIntf.get_vlan_prop_intf(conn, resource[:if_name])
-     resp == nil
- end
-=end
-  def bridgeport_mode
-    conn = Connect.new('./config.yml')
-    resp = VlanIntf.get_vlan_prop_intf(conn, resource[:if_name])
-    resp['bridgeport_mode']
-    # @property_hash[:bridgeport_mode]
+  def self.prefetch(resources)
+    vlans = instances
+    resources.keys.each do |name|
+      if provider = vlans.find { |vlan| vlan.name == name }
+        resources[name].provider = provider
+      end
+    end
   end
 
-  def pvid
-    conn = Connect.new('./config.yml')
-    resp = VlanIntf.get_vlan_prop_intf(conn, resource[:if_name])
-    resp['pvid']
-    # @property_hash[:pvid]
+  def exists?
+    @property_hash[:ensure] == :present
   end
 
-  def vlans
-    conn = Connect.new('./config.yml')
-    resp = VlanIntf.get_vlan_prop_intf(conn, resource[:if_name])
-    resp['vlans']
-    # @property_hash[:pvid]
-  end
-
-  def bridgeport_mode=(value)
-    conn = Connect.new('./config.yml')
-    params = { 'pvid' => resource[:pvid],
-               'bridgeport_mode' => resource[:bridgeport_mode],
-               'vlans' => resource[:vlans],
-               'if_name' => resource[:if_name] }
-    resp = VlanIntf.update_vlan_intf(conn, resource[:if_name], params)
-    # @property_hash[:bridgeport_mode] = value
-  end
-
-  def pvid=(value)
-    conn = Connect.new('./config.yml')
-    params = { 'pvid' => resource[:pvid],
-               'bridgeport_mode' => resource[:bridgeport_mode],
-               'vlans' => resource[:vlans],
-               'if_name' => resource[:if_name] }
-    resp = VlanIntf.update_vlan_intf(conn, resource[:if_name], params)
-    # @property_hash[:pvid] = value
-  end
-
-  def vlans=(value)
-    conn = Connect.new('./config.yml')
-    params = { 'pvid' => resource[:pvid],
-               'bridgeport_mode' => resource[:bridgeport_mode],
-               'vlans' => resource[:vlans],
-               'if_name' => resource[:if_name] }
-    puts params
-    resp = VlanIntf.update_vlan_intf(conn, resource[:if_name], params)
-    # @property_hash[:vlans] = value
+  def flush
+    params = {}
+    if @property_hash != {}
+      puts @property_hash
+      conn = Connect.new('./config.yml')
+      params['if_name'] = resource[:if_name]
+      if resource[:pvid] != nil
+        params['pvid'] = resource[:pvid]
+      end
+      if resource[:vlans] != nil
+        params['vlans'] = resource[:vlans]
+      end
+      if resource[:bridgeport_mode] != nil
+        params['bridgeport_mode'] = resource[:bridgeport_mode]
+      end
+      resp = VlanIntf.update_vlan_intf(conn, resource[:if_name], params)
+    end
+    @property_hash = resource.to_hash
   end
 end

@@ -1,5 +1,3 @@
 vlan_intf { 'Ethernet1/92':
-#ensure => 'present',
-bridgeport_mode => 'trunk',
-pvid => 1,
+ensure => 'present',
 vlans => [10],}
