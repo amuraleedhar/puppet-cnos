@@ -12,7 +12,7 @@
 # limitations under the License.
 #
 
-Puppet::Type.newtype(:vrrp) do
+Puppet::Type.newtype(:cnos_vrrp) do
   desc ' = {
  	    Manage Vrrp on Lenovo cnos.
 

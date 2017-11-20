@@ -12,13 +12,13 @@
 # limitations under the License.
 #
 
-Puppet::Type.newtype(:vlag_isl) do
+Puppet::Type.newtype(:cnos_arp_sys) do
   desc ' = {
- 	    Manage vlag isl on Lenovo cnos.
+ 	    Manage Lacp on Lenovo cnos.
 
  	    Example:
- 	     lacp {"vlag_isl":
-                port_aggregator => <port_aggregator>
+ 	     lacp {"arp_sys":
+              ageout_time => ageout_time
         	    }
            }'
 
@@ -28,16 +28,16 @@ Puppet::Type.newtype(:vlag_isl) do
   end
 
   # Properties
-  newproperty(:port_aggregator) do
-    desc 'integer from 1-4096'
+  newproperty(:ageout_time) do
+    desc 'integer from 60-28800'
 
     munge do |value|
       value.to_i
     end
 
     validate do |value|
-      unless value.to_i.between?(1, 4096)
-        fail "value not within limit (1-4096)"
+      unless value.to_i.between?(60, 28800)
+        fail "value not within limit (60-28800)"
       end
     end
   end

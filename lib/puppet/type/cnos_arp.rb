@@ -12,19 +12,18 @@
 # limitations under the License.
 #
 
-Puppet::Type.newtype(:arp_sys) do
+Puppet::Type.newtype(:cnos_arp) do
   desc ' = {
- 	    Manage Lacp on Lenovo cnos.
+ 	    Manage ARP properties on Lenovo cnos.
 
  	    Example:
- 	     lacp {"arp_sys":
-              ageout_time => ageout_time
+ 	     arp {"<if_name>":
+ 	     ageout_time => <ageout_time>,
         	    }
            }'
-
   # Parameters
-  newparam(:title, namevar: true) do
-    desc 'name of parameter'
+  newparam(:if_name, namevar: true) do
+    desc 'Ethernet interface name'
   end
 
   # Properties
@@ -33,12 +32,6 @@ Puppet::Type.newtype(:arp_sys) do
 
     munge do |value|
       value.to_i
-    end
-
-    validate do |value|
-      unless value.to_i.between?(60, 28800)
-        fail "value not within limit (60-28800)"
-      end
     end
   end
 end

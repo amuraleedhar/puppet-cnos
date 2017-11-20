@@ -12,30 +12,42 @@
 # limitations under the License.
 #
 
-Puppet::Type.newtype(:lacp) do
+Puppet::Type.newtype(:cnos_sys) do
   desc ' = {
- 	    Manage Lacp on Lenovo cnos.
+ 	    Manage Vlans on Lenovo cnos.
 
  	    Example:
- 	     lacp {"lacp":
-              sys_prio => <sys_prio>
+ 	     system_feature {"sys":
+ 	     heartbeat_enable => 1,
+ 	     msg_interval => 10,
         	    }
            }'
 
   # Parameters
-  newparam(:title, namevar: true) do
-    desc 'name of parameter'
+  newparam(:sys_feature, namevar: true) do
+    desc 'setting system feature - should be "sys"'
+    newvalues("sys", "system")
   end
 
   # Properties
-  newproperty(:sys_prio) do
-    desc 'integer from 1-65535'
+  newproperty(:heartbeat_enable) do
+    desc '0/1 for enable or disable'
 
-    munge(&:to_i)
+    munge do |value|
+      value.to_i
+    end
+  end
+
+  newproperty(:msg_interval) do
+    desc 'determines interval of heartbeat message'
+
+    munge do |value|
+      value.to_i
+    end
 
     validate do |value|
-      unless value.to_i.between?(1, 65535)
-        raise 'value not within limit (1-65535)'
+      unless value.to_i.between?(1, 600)
+        fail "value not within limit (1-600)"
       end
     end
   end

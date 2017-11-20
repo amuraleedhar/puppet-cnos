@@ -12,7 +12,7 @@
 # limitations under the License.
 #
 
-Puppet::Type.newtype(:ip_intf) do
+Puppet::Type.newtype(:cnos_ip_intf) do
   desc ' = {
  	    Manage Vlan_intf on Lenovo cnos.
 

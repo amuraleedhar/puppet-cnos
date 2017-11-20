@@ -12,7 +12,7 @@
 # limitations under the License.
 #
 
-Puppet::Type.newtype(:vlag_health) do
+Puppet::Type.newtype(:cnos_vlag_health) do
   desc ' = {
  	    Manage Vlag Health on Lenovo cnos.
 

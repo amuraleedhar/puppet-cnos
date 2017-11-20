@@ -12,7 +12,7 @@
 # limitations under the License.
 #
 
-Puppet::Type.newtype(:bst_feature) do
+Puppet::Type.newtype(:cnos_telemetry) do
   desc ' = {
  	    Manage bst feature on Lenovo cnos.
 

@@ -12,50 +12,40 @@
 # limitations under the License.
 #
 
-Puppet::Type.newtype(:vlag) do
+Puppet::Type.newtype(:cnos_vlan_intf) do
   desc ' = {
- 	    Manage Vlags on Lenovo cnos.
+ 	    Manage Vlan_intf on Lenovo cnos.
 
  	    Example:
- 	     cnos_vlag {1:
- 	     port_aggregator => <port_aggregator>,
- 	     status => enable/disable,
+ 	     vlan_intf {"<if_name>":
+ 	     bridgeport_mode => access/trunk,
+ 	     pvid => "<pvid>",
+              vlans => ["<vlan_id>"]
         	    }
            }'
+
   ensurable
 
   # Parameters
-  newparam(:inst_id, namevar: true) do
-    desc 'inst_id an integer from 2-3999'
-
-    munge do |value|
-      value.to_i
-    end
-
-    validate do |value|
-      unless value.to_i.between?(1, 64)
-        fail "value not within limit (1-64)"
-      end
-    end
+  newparam(:if_name, namevar: true) do
+    desc 'Ethernet interface name'
   end
 
   # Properties
-  newproperty(:port_aggregator) do
-    desc 'string 32 characters long'
+  newproperty(:bridgeport_mode) do
+    newvalues(:access, :trunk)
+    desc 'one of access/trunk'
+  end
+
+  newproperty(:pvid) do
+    desc 'integer from 1-3999'
 
     munge do |value|
       value.to_i
     end
-
-    validate do |value|
-      unless value.to_i.between?(1, 4096)
-        fail "value not within limit (1-4096)"
-      end
-    end
   end
 
-  newproperty(:status) do
-    desc 'one of up or down'
-    #  newvalues('enable', 'disable')
+  newproperty(:vlans, :array_matching => :all) do
+    desc 'VLAN memberships'
   end
 end
