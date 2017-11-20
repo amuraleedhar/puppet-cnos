@@ -62,7 +62,7 @@ Puppet::Type.type(:cnos_telemetry).provide :bst_feature do
     resp = Telemetry.get_bst_feature(conn)
     resp['async-full-report']
   end
- 
+
   def params_setup
     params = {}
     params =
@@ -75,7 +75,7 @@ Puppet::Type.type(:cnos_telemetry).provide :bst_feature do
         "trigger-rate-limit-interval" => resource[:trigger_rate_limit_interval],
         "bst-enable" => resource[:bst_enable]
       }
-   return params
+    return params
   end
 
   def bst_enable=(value)

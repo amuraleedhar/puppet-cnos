@@ -87,7 +87,7 @@ Puppet::Type.type(:cnos_telemetry_track).provide :bst_track do
     puts "here"
     resp['track-peak-stats']
   end
- 
+
   def params_setup
     params =
       {
