@@ -16,7 +16,7 @@ require 'puppet/type'
 require 'cnos-rbapi'
 require 'cnos-rbapi/vrrp'
 
-Puppet::Type.type(:vrrp).provide :vrrp do
+Puppet::Type.type(:cnos_vrrp).provide :vrrp do
   desc 'Manage VRRP on Lenovo CNOS. Requires cnos-rbapi'
 
   # confine :feature => :LenovoCheflib

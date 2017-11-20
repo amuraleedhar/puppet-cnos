@@ -14,22 +14,22 @@
 
 require 'puppet/type'
 require 'cnos-rbapi'
-require 'cnos-rbapi/arp'
+require 'cnos-rbapi/lacp'
 
-Puppet::Type.type(:arp_sys).provide :arp_sys do
-  desc 'Manage Arp_sys on Lenovo CNOS. Requires cnos-rbapi'
+Puppet::Type.type(:cnos_lacp).provide :lacp do
+  desc 'Manage Lacp on Lenovo CNOS. Requires cnos-rbapi'
 
   confine operatingsystem: [:ubuntu]
 
-  def ageout_time
+  def sys_prio
     conn = Connect.new('./config.yml')
-    resp = Arp.get_arp_sys_prop(conn)
-    resp['ageout_time']
+    resp = Lacp.get_lacp(conn)
+    resp['sys_prio']
   end
 
-  def ageout_time=(value)
+  def sys_prio=(value)
     conn = Connect.new('./config.yml')
-    params = { 'ageout_time' => resource[:ageout_time] }
-    resp = Arp.set_arp_sys_prop(conn, params)
+    params = { 'sys_prio' => resource[:sys_prio] }
+    resp = Lacp.update_lacp(conn, params)
   end
 end

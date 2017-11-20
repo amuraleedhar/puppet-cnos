@@ -16,7 +16,7 @@ require 'puppet/type'
 require 'cnos-rbapi'
 require 'cnos-rbapi/ip_intf'
 
-Puppet::Type.type(:ip_intf).provide :ip_intf do
+Puppet::Type.type(:cnos_ip_intf).provide :ip_intf do
   desc 'Manage IP interfaces on Lenovo CNOS. Requires cnos-rbapi'
 
   confine operatingsystem: [:ubuntu]
