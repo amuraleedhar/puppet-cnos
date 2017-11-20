@@ -79,6 +79,7 @@ Puppet::Type.type(:cnos_lag).provide :lag do
   def create
     conn = Connect.new('./config.yml')
     Lag.create_lag(conn, resource[:lag_id], resource[:interfaces])
+    @property_hash.clear
   end
 
   def exists?
@@ -88,5 +89,6 @@ Puppet::Type.type(:cnos_lag).provide :lag do
   def destroy
     conn = Connect.new('./config.yml')
     Lag.delete_lag(conn, resource[:lag_id])
+    @property_hash.clear
   end
 end

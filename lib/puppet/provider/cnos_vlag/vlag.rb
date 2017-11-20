@@ -15,6 +15,7 @@
 require 'puppet/type'
 require 'cnos-rbapi'
 require 'cnos-rbapi/vlag'
+check = 0
 
 Puppet::Type.type(:cnos_vlag).provide :vlag do
   desc 'Manage Vlag on Lenovo CNOS. Requires cnos-rbapi'
@@ -75,6 +76,7 @@ Puppet::Type.type(:cnos_vlag).provide :vlag do
                "port_aggregator" => resource[:port_aggregator],
                "status" => resource[:status] }
     Vlag.create_vlag_inst(conn, params)
+    @property_hash.clear
   end
 
   def exists?
@@ -84,5 +86,6 @@ Puppet::Type.type(:cnos_vlag).provide :vlag do
   def destroy
     conn = Connect.new('./config.yml')
     Vlag.delete_vlag_inst(conn, resource[:inst_id])
+    @property_hash.clear
   end
 end

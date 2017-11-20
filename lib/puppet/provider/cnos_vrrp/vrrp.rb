@@ -104,6 +104,7 @@ Puppet::Type.type(:cnos_vrrp).provide :vrrp do
     conn = Connect.new('./config.yml')
     params = params_setup
     Vrrp.create_vrrp_intf(conn, resource[:if_name], params)
+    @property_hash.clear
   end
 
   def exists?
@@ -113,5 +114,6 @@ Puppet::Type.type(:cnos_vrrp).provide :vrrp do
   def destroy
     conn = Connect.new('./config.yml')
     Vrrp.del_vrrp_intf_vrid(conn, resource[:if_name], resource[:vr_id])
+    @property_hash.clear
   end
 end
