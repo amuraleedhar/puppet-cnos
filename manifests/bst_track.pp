@@ -1,4 +1,4 @@
-bst_track{'bst': 
+cnos_telemetry_track{'bst': 
      track_egress_port_service_pool =>  0,
      track_egress_uc_queue =>  0,
      track_egress_rqe_queue =>  0,

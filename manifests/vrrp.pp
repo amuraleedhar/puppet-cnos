@@ -1,4 +1,4 @@
-vrrp{ '1' :
+cnos_vrrp{ '1' :
          ensure => 'present', 
          prio =>  100,
          vr_id =>  1,

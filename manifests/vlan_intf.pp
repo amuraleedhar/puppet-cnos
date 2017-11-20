@@ -1,4 +1,4 @@
-vlan_intf { 'Ethernet1/92':
+cnos_vlan_intf { 'Ethernet1/92':
 #ensure => 'present',
 bridgeport_mode => 'trunk',
 pvid => 1,

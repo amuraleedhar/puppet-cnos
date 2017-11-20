@@ -1,4 +1,4 @@
-bst_feature{'bst_feature': 
+cnos_telemetry{'bst_feature': 
      collection_interval =>70,
      send_async_reports =>1,
      send_snapshot_on_trigger =>1,

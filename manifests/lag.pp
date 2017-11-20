@@ -1,4 +1,4 @@
-lag { '11':
+cnos_lag { '11':
 ensure => 'present',
 interfaces =>  [ {
                 "lacp_prio" => 32768,
