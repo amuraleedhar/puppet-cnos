@@ -18,7 +18,7 @@ The cnos module provides a set of types and providers for managing Lenovo switch
 
 Below are given a few examples of manifests that make use of the types and providers
 
-###1. vlan
+### 1.vlan
 This manifests creates vlan if it does not exist or if the vlan exists the manifest updates the vlan state as given by the parameters.
 ```ruby
 cnos_vlan { '11':
@@ -26,7 +26,7 @@ ensure => 'present',
 admin_state => 'down',
 vlan_name => 'test11',}
 ```
-###2. vlag
+### 2.vlag
 This manifests creates vlag if it does not exist or if the vlag exists the manifest updates the vlag state as given by the parameters.
 ```ruby
 cnos_vlag { '2':
@@ -34,7 +34,7 @@ ensure => 'present',
 status => 'disable',
 port_aggregator => 20,}
 ```
-###3. vrrp
+### 3.vrrp
 This manifests creates vrrp vr if it does not exist or if the vrrp vr exists the manifest updates the vrrp state as given by the parameters.
 ```ruby
 cnos_vrrp{ '1' :
@@ -77,11 +77,11 @@ password : '<password>' #Credentials
 ## Testing
 The cookbook was originally tested direclty on a Ubuntu 16.04 VM, set up as client.
 In the setup,
-1. A config file 'switch.yml' was created on the workstation and transferred to the client using recipe.
-2. 'cnos-rbapi' gem was installed using recipe(default.rb)
-3. Image download, Switch config and Vlan Config recipes(given as instances above) were tested on the VM and the configurations were verified.
+1. A config file 'switch.yml' was created on the agent.
+2. 'cnos-rbapi' gem was installed.
+3. Vlan Config, Vlag config, Vrrp, etc manifests(given as instances above) were tested on the VM and the configurations were verified
 
-Test tools such as Test kitchen or ChefSpec can also be used to run test recipes on the workstation
+Unit test tools such as spec can also be used to test types and providers
 
 ## Contributors
 * Lenovo DCG Networking, Lenovo
