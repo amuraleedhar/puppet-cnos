@@ -15,7 +15,6 @@
 require 'puppet/type'
 require 'cnos-rbapi'
 require 'cnos-rbapi/vlag'
-check = 0
 
 Puppet::Type.type(:cnos_vlag).provide :vlag do
   desc 'Manage Vlag on Lenovo CNOS. Requires cnos-rbapi'
