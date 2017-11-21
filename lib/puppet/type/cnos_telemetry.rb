@@ -14,7 +14,7 @@
 
 Puppet::Type.newtype(:cnos_telemetry) do
   desc ' = {
- 	    Manage bst feature on Lenovo cnos.
+ 	    Manage Telemetry feature on Lenovo cnos.
 
  	    Example:
  	     cnos_telemetry {"bst":
