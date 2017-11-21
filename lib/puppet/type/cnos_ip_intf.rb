@@ -14,7 +14,7 @@
 
 Puppet::Type.newtype(:cnos_ip_intf) do
   desc ' = {
- 	    Manage Vlan_intf on Lenovo cnos.
+ 	    Manage Ip intf on Lenovo cnos.
 
  	    Example:
  	     cnos_ip_intf{"<if_name>":
