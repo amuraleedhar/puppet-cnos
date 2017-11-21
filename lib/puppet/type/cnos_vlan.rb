@@ -18,8 +18,8 @@ Puppet::Type.newtype(:cnos_vlan) do
 
  	    Example:
  	     cnos_vlan {1:
- 	     vlan_name => vlan1,
- 	     admin_state => up,
+		     vlan_name => vlan1,
+		     admin_state => up,
               }
            }'
   ensurable

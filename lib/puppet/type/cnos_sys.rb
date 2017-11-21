@@ -17,9 +17,9 @@ Puppet::Type.newtype(:cnos_sys) do
  	    Manage Telemetry system properties on Lenovo cnos.
 
  	    Example:
- 	     system_feature {"sys":
-		     heartbeat_enable => 1,
-		     msg_interval => 10,
+ 	     cnos_sys{"sys":
+		       heartbeat_enable => 1,
+		       msg_interval => 10,
                      }
            }'
 

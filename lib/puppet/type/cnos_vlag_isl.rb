@@ -18,7 +18,7 @@ Puppet::Type.newtype(:cnos_vlag_isl) do
 
  	    Example:
  	     cnos_vlag_isl {"vlag_isl":
-                port_aggregator => <port_aggregator>
+			   port_aggregator => <port_aggregator>
                }
            }'
 

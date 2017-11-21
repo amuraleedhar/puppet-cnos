@@ -18,7 +18,7 @@ Puppet::Type.newtype(:cnos_lacp) do
 
  	    Example:
  	     cnos_lacp {"lacp":
-              sys_prio => <sys_prio>
+		      sys_prio => <sys_prio>
               }
            }'
 

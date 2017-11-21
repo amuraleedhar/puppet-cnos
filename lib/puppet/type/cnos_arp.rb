@@ -18,7 +18,7 @@ Puppet::Type.newtype(:cnos_arp) do
 
  	    Example:
  	     cnos_arp {"<if_name>":
- 	     ageout_time => <ageout_time>,
+		     ageout_time => <ageout_time>,
              }
            }'
   # Parameters

@@ -18,8 +18,8 @@ Puppet::Type.newtype(:cnos_vlag) do
 
  	    Example:
  	     cnos_vlag {1:
- 	     port_aggregator => <port_aggregator>,
- 	     status => enable/disable,
+		     port_aggregator => <port_aggregator>,
+		     status => enable/disable,
              }
            }'
   ensurable
