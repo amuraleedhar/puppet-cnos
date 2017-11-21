@@ -52,10 +52,10 @@ cnos_vrrp{ '1' :
          ad_intvl =>  100
 }
 ```
-**Note** - All the above recipes require the config file to reside on the client. You can also create one at the workstation and transfer to the client using chef resources in a recipe
+**Note** - All the above recipes require the config file to reside on the client.
 
 ## Dependencies
-* Chef 13 or later
+* Puppet 4.10 or later
 * Lenovo CNOS 10.4 or later
 * rest-client
 
