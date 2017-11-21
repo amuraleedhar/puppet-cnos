@@ -17,9 +17,9 @@ Puppet::Type.newtype(:cnos_arp_sys) do
  	    Manage Lacp on Lenovo cnos.
 
  	    Example:
- 	     lacp {"arp_sys":
+ 	      cnos_arp_sys {"arp_sys":
               ageout_time => ageout_time
-        	    }
+              }
            }'
 
   # Parameters

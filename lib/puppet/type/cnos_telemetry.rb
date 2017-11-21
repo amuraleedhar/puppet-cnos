@@ -17,7 +17,7 @@ Puppet::Type.newtype(:cnos_telemetry) do
  	    Manage bst feature on Lenovo cnos.
 
  	    Example:
- 	     bst_feature {"bst":
+ 	     cnos_telemetry {"bst":
                   "bst­enable": 1,
  		 "send­async­reports": 1,
  		 "collection­interval": 300,
@@ -25,7 +25,7 @@ Puppet::Type.newtype(:cnos_telemetry) do
  		 "trigger­rate­limit­interval": 2,
  		 "send­snapshot­on­trigger": 1,
  		 "async­full­reports": 1,
-        	    }
+        	}
            }'
 
   # Parameters

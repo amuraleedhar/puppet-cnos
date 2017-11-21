@@ -18,9 +18,9 @@ Puppet::Type.newtype(:cnos_sys) do
 
  	    Example:
  	     system_feature {"sys":
- 	     heartbeat_enable => 1,
- 	     msg_interval => 10,
-        	    }
+		     heartbeat_enable => 1,
+		     msg_interval => 10,
+                     }
            }'
 
   # Parameters

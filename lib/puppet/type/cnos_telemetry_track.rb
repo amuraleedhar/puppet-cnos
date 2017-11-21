@@ -17,8 +17,8 @@ Puppet::Type.newtype(:cnos_telemetry_track) do
  	    Manage bst tracking on Lenovo cnos.
 
  	    Example:
- 	     bst_track {"bst":
-                     "track-egress-port-service-pool": 1,
+ 	     cnos_telemetry_track {"bst":
+                    "track-egress-port-service-pool": 1,
  		    "track-egress-uc-queue": 1,
  		    "track-egress-rqe-queue": 1,
  		    "track-egress-cpu-queue": 1,

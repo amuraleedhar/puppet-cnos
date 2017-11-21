@@ -17,19 +17,19 @@ Puppet::Type.newtype(:cnos_vrrp) do
  	    Manage Vrrp on Lenovo cnos.
 
  	    Example:
- 	     vrrp {if_name:
- 		    "vr_id": "<vr_id>",
- 		    "ip_addr": "<ip_addr>",
- 		    "ad_intvl": "<ad_intvl>",
- 		    "preempt": "<preempt>",
- 		    "prio": "<prio>",
- 		    "admin_state": "<admin_state>",
- 		    "track_if": "<track_if>",
- 		    "accept_mode": "<accept_mode>",
- 		    "switch_back_delay": "<switch_back_delay>",
- 		    "v2_compt": "<v2_compt>"
-        	    }
-           }'
+ 	     cnos_vrrp {if_name:
+			    "vr_id": "<vr_id>",
+			    "ip_addr": "<ip_addr>",
+			    "ad_intvl": "<ad_intvl>",
+			    "preempt": "<preempt>",
+			    "prio": "<prio>",
+			    "admin_state": "<admin_state>",
+			    "track_if": "<track_if>",
+			    "accept_mode": "<accept_mode>",
+			    "switch_back_delay": "<switch_back_delay>",
+			    "v2_compt": "<v2_compt>"
+        	       }
+            }'
   ensurable
 
   # Parameters

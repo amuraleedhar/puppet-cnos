@@ -17,9 +17,9 @@ Puppet::Type.newtype(:cnos_vlag_isl) do
  	    Manage vlag isl on Lenovo cnos.
 
  	    Example:
- 	     lacp {"vlag_isl":
+ 	     cnos_vlag_isl {"vlag_isl":
                 port_aggregator => <port_aggregator>
-        	    }
+               }
            }'
 
   # Parameters

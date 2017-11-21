@@ -17,9 +17,9 @@ Puppet::Type.newtype(:cnos_arp) do
  	    Manage ARP properties on Lenovo cnos.
 
  	    Example:
- 	     arp {"<if_name>":
+ 	     cnos_arp {"<if_name>":
  	     ageout_time => <ageout_time>,
-        	    }
+             }
            }'
   # Parameters
   newparam(:if_name, namevar: true) do

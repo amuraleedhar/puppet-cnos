@@ -20,7 +20,7 @@ Puppet::Type.newtype(:cnos_vlan) do
  	     cnos_vlan {1:
  	     vlan_name => vlan1,
  	     admin_state => up,
-        	    }
+              }
            }'
   ensurable
 

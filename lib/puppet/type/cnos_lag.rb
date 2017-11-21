@@ -17,16 +17,15 @@ Puppet::Type.newtype(:cnos_lag) do
  	    Manage lags on Lenovo cnos.
 
  	    Example:
- 	     lag {"<lag_id>":
-              "interfaces": [
- 		  {
- 		    "if_name": "<if_name>",
- 		    "lag_mode": "<lag_mode>",
- 		    "lacp_prio": "<lacp_prio>",
- 		    "lacp_timeout": "<lacp_timeout>"
- 		  }
- 		]
-
+ 	     cnos_lag {"<lag_id>":
+                       "interfaces": [
+ 		        {
+			    "if_name": "<if_name>",
+			    "lag_mode": "<lag_mode>",
+			    "lacp_prio": "<lacp_prio>",
+			    "lacp_timeout": "<lacp_timeout>"
+              		}
+ 		       ]
         	    }
            }'
   ensurable

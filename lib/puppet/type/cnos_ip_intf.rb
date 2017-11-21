@@ -17,14 +17,14 @@ Puppet::Type.newtype(:cnos_ip_intf) do
  	    Manage Vlan_intf on Lenovo cnos.
 
  	    Example:
- 	     ip_intf {"<if_name>":
- 	     bridge_port => yes/no,
- 	     mtu => "<mtu>",
-              ip_addr => "<ip_addr>",
-              ip_prefix_len => "<ip_prefix_len>",
-              vrf_name => "<vrf_name>",
-              vlans => "<admin_state>"
-        	    }
+ 	     cnos_ip_intf{"<if_name>":
+ 	                  bridge_port => yes/no,
+		          mtu => "<mtu>",
+		          ip_addr => "<ip_addr>",
+		          ip_prefix_len => "<ip_prefix_len>",
+		          vrf_name => "<vrf_name>",
+		          vlans => "<admin_state>"
+        	         }
            }'
   ensurable
 

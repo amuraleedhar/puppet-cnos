@@ -17,8 +17,8 @@ Puppet::Type.newtype(:cnos_vlag_hc) do
  	    Manage Vlag Health on Lenovo cnos.
 
  	    Example:
- 	     lacp {"vlaghealth":
-                         "keepalive_interval": 10,
+ 	     cnos_vlag_hc {"vlaghealth":
+                        "keepalive_interval": 10,
  			"retry_interval": 30,
  			"peer_ip": "10.240.177.120",
  			"vrf": "default",
