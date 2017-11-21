@@ -14,7 +14,7 @@
 
 Puppet::Type.newtype(:cnos_arp_sys) do
   desc ' = {
- 	    Manage Lacp on Lenovo cnos.
+ 	    Manage Arp Sys on Lenovo cnos.
 
  	    Example:
  	      cnos_arp_sys {"arp_sys":
