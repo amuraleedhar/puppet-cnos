@@ -1,11 +1,11 @@
-# cnos
+# Puppet-cnos
 
 #### Table of Contents
 
 1. [Description](#description)
 1. [Manifests](#manifests)
 1. [Dependencies](#dependencies)
-1. [Running the manifests](#running the manifests)
+1. [Running the manifests](#running-the-manifests)
 1. [Testing](#testing)
 1. [Contributors](#contrinutors)
 1. [License](#license)
