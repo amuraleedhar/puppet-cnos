@@ -14,7 +14,7 @@
 
 Puppet::Type.newtype(:cnos_sys) do
   desc ' = {
- 	    Manage Vlans on Lenovo cnos.
+ 	    Manage Telemetry system properties on Lenovo cnos.
 
  	    Example:
  	     system_feature {"sys":
