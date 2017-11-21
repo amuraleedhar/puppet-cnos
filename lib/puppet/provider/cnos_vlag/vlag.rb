@@ -19,7 +19,6 @@ require 'cnos-rbapi/vlag'
 Puppet::Type.type(:cnos_vlag).provide :vlag do
   desc 'Manage Vlag on Lenovo CNOS. Requires cnos-rbapi'
 
-  # confine :feature => :LenovoCheflib
   confine operatingsystem: [:ubuntu]
 
   mk_resource_methods

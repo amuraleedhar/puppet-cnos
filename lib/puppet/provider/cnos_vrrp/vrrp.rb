@@ -19,7 +19,6 @@ require 'cnos-rbapi/vrrp'
 Puppet::Type.type(:cnos_vrrp).provide :vrrp do
   desc 'Manage VRRP on Lenovo CNOS. Requires cnos-rbapi'
 
-  # confine :feature => :LenovoCheflib
   confine operatingsystem: [:ubuntu]
 
   mk_resource_methods

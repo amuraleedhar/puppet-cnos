@@ -1,3 +1,3 @@
 require 'puppet/util/feature'
 
-Puppet.features.add(:LenovoCheflib, :libs => ['LenovoCheflib'])
+Puppet.features.add(:cnosrbapi, :libs => ['cnos-rbapi'])

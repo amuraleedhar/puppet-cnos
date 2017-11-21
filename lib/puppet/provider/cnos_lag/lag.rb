@@ -19,7 +19,6 @@ require 'cnos-rbapi/lag'
 Puppet::Type.type(:cnos_lag).provide :lag do
   desc 'Manage lag on Lenovo CNOS. Requires cnos-rbapi'
 
-  # confine :feature => :LenovoCheflib
   confine operatingsystem: [:ubuntu]
 
   mk_resource_methods
