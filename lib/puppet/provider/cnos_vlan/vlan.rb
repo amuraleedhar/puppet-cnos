@@ -48,6 +48,7 @@ Puppet::Type.type(:cnos_vlan).provide :vlan do
   end
 
   def flush
+    Puppet.debug(">>>>>>>flush")
     params = {}
     if @property_hash != {}
       puts @property_hash
@@ -64,6 +65,7 @@ Puppet::Type.type(:cnos_vlan).provide :vlan do
   end
 
   def create
+    Puppet.debug(">>>>>>>create")
     conn = Connect.new('./config.yml')
     params = { "vlan_id" => resource[:vlan_id],
                "vlan_name" => resource[:vlan_name],
@@ -73,6 +75,7 @@ Puppet::Type.type(:cnos_vlan).provide :vlan do
   end
 
   def exists?
+    Puppet.debug(">>>>>>>exists")
     @property_hash[:ensure] == :present
   end
 
