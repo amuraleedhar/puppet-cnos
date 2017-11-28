@@ -16,7 +16,7 @@ require 'puppet/type'
 require 'cnos-rbapi'
 require 'cnos-rbapi/telemetry'
 
-Puppet::Type.type(:cnos_telemetry).provide :bst_feature do
+Puppet::Type.type(:cnos_telemetry).provide :rest do
   desc 'Manage BST feature on Lenovo CNOS. Requires cnos-rbapi'
 
   confine operatingsystem: [:ubuntu]

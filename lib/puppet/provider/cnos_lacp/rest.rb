@@ -14,22 +14,22 @@
 
 require 'puppet/type'
 require 'cnos-rbapi'
-require 'cnos-rbapi/vlag'
+require 'cnos-rbapi/lacp'
 
-Puppet::Type.type(:cnos_vlag_isl).provide :vlag_isl do
-  desc 'Manage Vlag on Lenovo CNOS. Requires cnos-rbapi'
+Puppet::Type.type(:cnos_lacp).provide :rest do
+  desc 'Manage Lacp on Lenovo CNOS. Requires cnos-rbapi'
 
   confine operatingsystem: [:ubuntu]
 
-  def port_aggregator
+  def sys_prio
     conn = Connect.new('./config.yml')
-    resp = Vlag.get_vlag_isl(conn)
-    resp['port_aggregator']
+    resp = Lacp.get_lacp(conn)
+    resp['sys_prio']
   end
 
-  def port_aggregator=(value)
+  def sys_prio=(value)
     conn = Connect.new('./config.yml')
-    params = { 'port_aggregator' => resource[:port_aggregator] }
-    resp = Vlag.update_vlag_isl(conn, params)
+    params = { 'sys_prio' => resource[:sys_prio] }
+    resp = Lacp.update_lacp(conn, params)
   end
 end

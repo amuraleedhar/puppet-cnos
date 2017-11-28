@@ -16,7 +16,7 @@ require 'puppet/type'
 require 'cnos-rbapi'
 require 'cnos-rbapi/telemetry'
 
-Puppet::Type.type(:cnos_sys).provide :system do
+Puppet::Type.type(:cnos_sys).provide :rest do
   desc 'Manage System properties on Lenovo CNOS. Requires cnos-rbapi'
 
   confine operatingsystem: [:ubuntu]

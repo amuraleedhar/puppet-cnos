@@ -16,7 +16,7 @@ require 'puppet/type'
 require 'cnos-rbapi'
 require 'cnos-rbapi/vrrp'
 
-Puppet::Type.type(:cnos_vrrp).provide :vrrp do
+Puppet::Type.type(:cnos_vrrp).provide :rest do
   desc 'Manage VRRP on Lenovo CNOS. Requires cnos-rbapi'
 
   confine operatingsystem: [:ubuntu]
@@ -30,7 +30,7 @@ Puppet::Type.type(:cnos_vrrp).provide :vrrp do
     resp = Vrrp.get_vrrp_prop_all(conn)
     return 'no vrrp' if !resp
     resp.each do |item|
-      provider_val << new(name: item['vr_id'],
+      provider_val << new(name: item['vr_id'].to_s,
                           vr_id: item['vr_id'],
                           if_name: item['if_name'],
                           ensure: :present,

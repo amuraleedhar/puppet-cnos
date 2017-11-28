@@ -16,7 +16,7 @@ require 'puppet/type'
 require 'cnos-rbapi'
 require 'cnos-rbapi/lag'
 
-Puppet::Type.type(:cnos_lag).provide :lag do
+Puppet::Type.type(:cnos_lag).provide :rest do
   desc 'Manage lag on Lenovo CNOS. Requires cnos-rbapi'
 
   confine operatingsystem: [:ubuntu]
@@ -29,7 +29,7 @@ Puppet::Type.type(:cnos_lag).provide :lag do
     resp = Lag.get_all_lag(conn)
     return 'no vlags' if !resp
     resp.each do |item|
-      provider_val << new(name: item['lag_id'],
+      provider_val << new(name: item['lag_id'].to_s,
                           interfaces: item['interfaces'],
                           min_links: item['min_links'],
                           ensure: :present,)
