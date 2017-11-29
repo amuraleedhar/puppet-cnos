@@ -16,11 +16,42 @@ require 'puppet/type'
 require 'cnos-rbapi'
 require 'cnos-rbapi/telemetry'
 
-Puppet::Type.type(:cnos_telemetry).provide :rest do
+Puppet::Type.type(:cnos_telemetry).provide :bst_feature do
   desc 'Manage BST feature on Lenovo CNOS. Requires cnos-rbapi'
 
   confine operatingsystem: [:ubuntu]
 
+  def self.instances
+    Puppet.debug(">>>>>>>instances")
+    provider_val = []
+    conn = Connect.new('./config.yml')
+    resp = Telemetry.get_bst_feature(conn)
+    return 'no vlans' if !resp
+    resp.each do |item|
+      Puppet.debug(item['vlan_id'])
+      provider_val << new(name: 'bst',
+                          bst_enable: item['bst_enable'],
+                          ensure: :present,
+                          send_async_reports: item['send_async_reports'],
+                          collection_interval: item['collections-interval'],
+                          trigger_rate_limit: item['trigger-rate-limit'],
+                          trigger_rate_limit_interval: item['trigger-rate-limit-interval'],
+                          send_snapshot_on_trigger: item['send_snapshot_on_trigger'],
+                          async_full_reports: item['async_full_reports'])
+    end
+  end
+
+  def self.prefetch(resources)
+    Puppet.debug(">>>>>>>prefetch")
+    resp = instances
+    resources.keys.each do |name|
+      if provider = resp.find { |vlan| vlan.name == name }
+        resources[name].provider = provider
+      end
+    end
+  end
+
+=begin
   def bst_enable
     conn = Connect.new('./config.yml')
     resp = Telemetry.get_bst_feature(conn)
@@ -62,7 +93,7 @@ Puppet::Type.type(:cnos_telemetry).provide :rest do
     resp = Telemetry.get_bst_feature(conn)
     resp['async-full-report']
   end
-
+=end
   def params_setup
     params = {}
     params =
@@ -92,6 +123,7 @@ Puppet::Type.type(:cnos_telemetry).provide :rest do
   end
 
   def collection_interval=(value)
+    Puppet.debug("interval")
     conn = Connect.new('./config.yml')
     params = params_setup
     resp = Telemetry.set_bst_feature(conn, params)

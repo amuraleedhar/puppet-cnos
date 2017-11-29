@@ -14,11 +14,12 @@
 
 require 'puppet/type'
 require 'cnos-rbapi'
-require 'cnos-rbapi/lag'
+require 'cnos-rbapi/vlag'
 
-Puppet::Type.type(:cnos_lag).provide :rest do
-  desc 'Manage lag on Lenovo CNOS. Requires cnos-rbapi'
+Puppet::Type.type(:vlag).provide :vlag do
+  desc 'Manage Vlag on Lenovo CNOS. Requires cnos-rbapi'
 
+  # confine :feature => :LenovoCheflib
   confine operatingsystem: [:ubuntu]
 
   mk_resource_methods
@@ -26,58 +27,54 @@ Puppet::Type.type(:cnos_lag).provide :rest do
   def self.instances
     provider_val = []
     conn = Connect.new('./config.yml')
-    resp = Lag.get_all_lag(conn)
+    resp = Vlag.get_all_vlag(conn)
     return 'no vlags' if !resp
     resp.each do |item|
-      provider_val << new(name: item['lag_id'].to_s,
-                          interfaces: item['interfaces'],
-                          min_links: item['min_links'],
-                          ensure: :present,)
+      provider_val << new(name: item['inst_id'],
+                          port_aggregator: item['port_aggregator'],
+                          ensure: :present,
+                          status: item['status'])
     end
     return provider_val
   end
 
   def self.prefetch(resources)
-    lags = instances
+    vlags = instances
+    puts vlags
     resources.keys.each do |name|
-      if provider = lags.find { |lag| lag.name == name }
+      if provider = vlags.find { |vlag| vlag.name == name }
         resources[name].provider = provider
       end
     end
   end
 
-  def initilialize(value = {})
-    super(value)
-    @property_flush = {}
-  end
-
   def params_setup
     params = {}
-    if @property_hash != {}
-      conn = Connect.new('./config.yml')
-      params['lag_id'] = resource[:lag_id]
-      if resource[:min_links] != nil
-        params['min_links'] = resource[:min_links]
-      end
-      if resource[:interfaces] != nil
-        params['interfaces'] = resource[:interfaces]
-      end
-      return params
+    conn = Connect.new('./config.yml')
+    if resource[:status] != nil
+      params['status'] = resource[:status]
     end
+    if resource[:port_aggregator] != nil
+      params['port_aggregator'] = resource[:port_aggregator]
+    end
+    return params
   end
 
   def flush
     if @property_hash
       conn = Connect.new('./config.yml')
       params = params_setup
-      resp = Lag.update_lag(conn, resource[:lag_id], params)
+      resp = Vlag.update_vlag_inst(conn, resource[:inst_id], params)
     end
     @property_hash = resource.to_hash
   end
 
   def create
     conn = Connect.new('./config.yml')
-    Lag.create_lag(conn, resource[:lag_id], resource[:interfaces])
+    params = { "inst_id" => resource[:inst_id],
+               "port_aggregator" => resource[:port_aggregator],
+               "status" => resource[:status] }
+    Vlag.create_vlag_inst(conn, params)
     @property_hash.clear
   end
 
@@ -87,7 +84,6 @@ Puppet::Type.type(:cnos_lag).provide :rest do
 
   def destroy
     conn = Connect.new('./config.yml')
-    Lag.delete_lag(conn, resource[:lag_id])
-    @property_hash.clear
+    Vlag.delete_vlag_inst(conn, resource[:inst_id])
   end
 end

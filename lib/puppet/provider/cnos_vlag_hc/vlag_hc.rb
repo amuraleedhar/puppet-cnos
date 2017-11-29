@@ -16,7 +16,7 @@ require 'puppet/type'
 require 'cnos-rbapi'
 require 'cnos-rbapi/vlag'
 
-Puppet::Type.type(:cnos_vlag_hc).provide :rest do
+Puppet::Type.type(:cnos_vlag_hc).provide :vlag_hc do
   desc 'Manage Vlag_health on Lenovo CNOS. Requires cnos-rbapi'
 
   confine operatingsystem: [:ubuntu]
