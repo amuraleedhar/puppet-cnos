@@ -6,5 +6,5 @@ interfaces =>  [ {
                 "lag_mode"=> "lacp_active",
                 "if_name"=> "Ethernet1/23"
             }],
-min_links => 1,
+min_links => 2,
 }
