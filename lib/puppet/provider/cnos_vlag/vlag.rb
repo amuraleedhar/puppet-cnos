@@ -14,60 +14,65 @@
 
 require 'puppet/type'
 require 'cnos-rbapi'
-require 'cnos-rbapi/vlan'
+require 'cnos-rbapi/vlag'
 
-Puppet::Type.type(:cnos_vlan).provide :vlan do
-  desc 'Manage Vlan on Lenovo CNOS. Requires cnos-rbapi'
+Puppet::Type.type(:cnos_vlag).provide :vlag do
+  desc 'Manage Vlag on Lenovo CNOS. Requires cnos-rbapi'
 
   confine operatingsystem: [:ubuntu]
 
   mk_resource_methods
-  conn = Connect.new('./config.yml')
 
   def self.instances
     provider_val = []
     conn = Connect.new('./config.yml')
-    resp = Vlan.get_all_vlan(conn)
-    return 'no vlans' if !resp
+    resp = Vlag.get_all_vlag(conn)
+    return 'no vlags' if !resp
     resp.each do |item|
-      provider_val << new(name: item['vlan_id'].to_s,
-                          vlan_name: item['vlan_name'],
+      provider_val << new(name: item['inst_id'].to_s,
+                          port_aggregator: item['port_aggregator'],
                           ensure: :present,
-                          admin_state: item['admin_state'])
+                          status: item['status'])
     end
     return provider_val
   end
 
   def self.prefetch(resources)
-    vlans = instances
+    vlags = instances
     resources.keys.each do |name|
-      if provider = vlans.find { |vlan| vlan.name == name }
+      if provider = vlags.find { |vlag| vlag.name == name }
         resources[name].provider = provider
       end
     end
   end
 
-  def flush
+  def params_setup
     params = {}
-    if @property_hash != {}
+    conn = Connect.new('./config.yml')
+    if resource[:status] != nil
+      params['status'] = resource[:status]
+    end
+    if resource[:port_aggregator] != nil
+      params['port_aggregator'] = resource[:port_aggregator]
+    end
+    return params
+  end
+
+  def flush
+    if @property_hash
       conn = Connect.new('./config.yml')
-      if resource[:vlan_name] != nil
-        params['vlan_name'] = resource[:vlan_name]
-      end
-      if resource[:admin_state] != nil
-        params['admin_state'] = resource[:admin_state]
-      end
-      resp = Vlan.update_vlan(conn, resource[:vlan_id], params)
+      params = params_setup
+      resp = Vlag.update_vlag_inst(conn, resource[:inst_id], params)
     end
     @property_hash = resource.to_hash
   end
 
   def create
     conn = Connect.new('./config.yml')
-    params = { "vlan_id" => resource[:vlan_id].to_i,
-               "vlan_name" => resource[:vlan_name],
-               "admin_state" => resource[:admin_state] }
-    Vlan.create_vlan(conn, params)
+    params = { "inst_id" => resource[:inst_id].to_i,
+               "port_aggregator" => resource[:port_aggregator],
+               "status" => resource[:status] }
+    Vlag.create_vlag_inst(conn, params)
     @property_hash.clear
   end
 
@@ -76,7 +81,8 @@ Puppet::Type.type(:cnos_vlan).provide :vlan do
   end
 
   def destroy
-    Vlan.delete_vlan(conn, resource[:vlan_id])
+    conn = Connect.new('./config.yml')
+    Vlag.delete_vlag_inst(conn, resource[:inst_id])
     @property_hash.clear
   end
 end

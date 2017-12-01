@@ -16,7 +16,7 @@ require 'puppet/type'
 require 'cnos-rbapi'
 require 'cnos-rbapi/lacp'
 
-Puppet::Type.type(:cnos_lacp).provide :rest do
+Puppet::Type.type(:cnos_lacp).provide :lacp do
   desc 'Manage Lacp on Lenovo CNOS. Requires cnos-rbapi'
 
   confine operatingsystem: [:ubuntu]

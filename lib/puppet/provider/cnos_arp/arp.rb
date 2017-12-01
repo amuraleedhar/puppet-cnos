@@ -16,7 +16,7 @@ require 'puppet/type'
 require 'cnos-rbapi'
 require 'cnos-rbapi/arp'
 
-Puppet::Type.type(:cnos_arp).provide :rest do
+Puppet::Type.type(:cnos_arp).provide :arp do
   desc 'Manage Arp on Lenovo CNOS. Requires cnos-rbapi'
 
   confine operatingsystem: [:ubuntu]

@@ -27,6 +27,7 @@ Puppet::Type.newtype(:cnos_telemetry) do
 			 "async­full­reports": 1,
         	}
            }'
+  ensurable
 
   # Parameters
   newparam(:bst_feature, namevar: true) do

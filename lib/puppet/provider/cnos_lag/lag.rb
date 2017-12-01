@@ -35,7 +35,6 @@ Puppet::Type.type(:cnos_lag).provide :lag do
   end
 
   def interfaces
-    puts "interfaces"
     conn = Connect.new('./config.yml')
     params = params_setup
     resp = Lag.get_lag_prop(conn, resource[:lag_id])
@@ -43,27 +42,24 @@ Puppet::Type.type(:cnos_lag).provide :lag do
   end
 
   def min_links
-    puts "min links"
     conn = Connect.new('./config.yml')
     params = params_setup
     resp = Lag.get_lag_prop(conn, resource[:lag_id])
     resp['min_links']
   end
-
+ 
   def min_links=(value)
-    puts "min links1"
     conn = Connect.new('./config.yml')
     params = params_setup
     resp = Lag.update_lag(conn, resource[:lag_id], params)
   end
-
+  
   def interfaces=(value)
-    puts "interfaces1"
     conn = Connect.new('./config.yml')
     params = params_setup
     resp = Lag.update_lag(conn, resource[:lag_id], params)
   end
-
+ 
   def create
     conn = Connect.new('./config.yml')
     Lag.create_lag(conn, resource[:lag_id], resource[:interfaces])
@@ -80,4 +76,3 @@ Puppet::Type.type(:cnos_lag).provide :lag do
     Lag.delete_lag(conn, resource[:lag_id])
   end
 end
-

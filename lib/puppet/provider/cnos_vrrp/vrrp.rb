@@ -59,7 +59,7 @@ Puppet::Type.type(:cnos_vrrp).provide :vrrp do
   def params_setup
     params = {}
     params['if_name'] = resource[:if_name]
-    params['vr_id'] = resource[:vr_id]
+    params['vr_id'] = resource[:vr_id].to_i
     if resource[:ad_intvl] != nil
       params['ad_intvl'] = resource[:ad_intvl]
     end

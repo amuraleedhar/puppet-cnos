@@ -36,10 +36,6 @@ Puppet::Type.newtype(:cnos_vrrp) do
   newparam(:vr_id, namevar: true) do
     desc 'inst_id an integer from 1-255'
 
-    munge do |value|
-      value.to_i
-    end
-
     validate do |value|
       unless value.to_i.between?(1, 255)
         fail "value not within limit (1-255)"

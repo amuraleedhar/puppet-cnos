@@ -16,7 +16,7 @@ require 'puppet/type'
 require 'cnos-rbapi'
 require 'cnos-rbapi/vlan_intf'
 
-Puppet::Type.type(:cnos_vlan_intf).provide :vlan_intf do
+Puppet::Type.type(:cnos_vlan_intf).provide :vlan do
   desc 'Manage Vlan on Lenovo CNOS. Requires cnos-rbapi'
 
   confine operatingsystem: [:ubuntu]
@@ -50,6 +50,8 @@ Puppet::Type.type(:cnos_vlan_intf).provide :vlan_intf do
 
   def exists?
     @property_hash[:ensure] == :present
+    # return true since resource is always present
+    return true
   end
 
   def params_setup
