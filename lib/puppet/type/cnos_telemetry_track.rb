@@ -33,9 +33,8 @@ Puppet::Type.newtype(:cnos_telemetry_track) do
            }'
 
   # Parameters
-  newparam(:bst_track, namevar: true) do
-    desc 'setting bst tracking - should be "bst"'
-    newvalues("bst", "bst_track")
+  newparam(:telemetry_track, namevar: true) do
+    desc 'setting telemetry tracking - should be "bst"'
   end
 
   # Properties
