@@ -51,21 +51,21 @@ Puppet::Type.type(:cnos_lag).provide :lag do
     resp = Lag.get_lag_prop(conn, resource[:lag_id])
     resp['min_links']
   end
- 
+
   def min_links=(value)
     param = YAML.load_file('./config.yml')
     conn = Connect.new(param)
     params = params_setup
     resp = Lag.update_lag(conn, resource[:lag_id], params)
   end
-  
+
   def interfaces=(value)
     param = YAML.load_file('./config.yml')
     conn = Connect.new(param)
     params = params_setup
     resp = Lag.update_lag(conn, resource[:lag_id], params)
   end
- 
+
   def create
     param = YAML.load_file('./config.yml')
     conn = Connect.new(param)

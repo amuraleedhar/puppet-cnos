@@ -30,12 +30,12 @@ Puppet::Type.type(:cnos_vlag_hc).provide :vlag_health do
     resp = Vlag.get_vlag_health(conn)
     return 'no vlag health' if !resp
     provider_val << new(name: 'vlag_health',
-                          peer_ip: resp['peer_ip'],
-                          retry_interval: resp['retry_interval'],
-                          keepalive_interval: resp['keepalive_interval'],
-                          keepalive_attempts: resp['keepalive_attempts'],
-                          ensure: :present,
-                          vrf: resp['vrf'])
+                        peer_ip: resp['peer_ip'],
+                        retry_interval: resp['retry_interval'],
+                        keepalive_interval: resp['keepalive_interval'],
+                        keepalive_attempts: resp['keepalive_attempts'],
+                        ensure: :present,
+                        vrf: resp['vrf'])
     return provider_val
   end
 
@@ -47,7 +47,7 @@ Puppet::Type.type(:cnos_vlag_hc).provide :vlag_health do
       end
     end
   end
- 
+
   def flush
     params = {}
     if @property_hash != {}
@@ -72,17 +72,17 @@ Puppet::Type.type(:cnos_vlag_hc).provide :vlag_health do
     end
     @property_hash = resource.to_hash
   end
- 
+
   def exists?
     @property_hash[:ensure] == :present
     return true
   end
-  
+
   def destroy
     # restoring to default values since there is no delete
     param = YAML.load_file('./config.yml')
     conn = Connect.new(param)
-    params = {"keepalive_interval" => 5, "keepalive_attempts" => 5, "retry_interval" => 30}
+    params = { "keepalive_interval" => 5, "keepalive_attempts" => 5, "retry_interval" => 30 }
     Vlag.update_vlag_health(conn, params)
     @property_hash.clear
   end

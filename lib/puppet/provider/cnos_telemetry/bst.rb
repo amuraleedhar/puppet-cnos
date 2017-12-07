@@ -19,7 +19,7 @@ require 'yaml'
 
 Puppet::Type.type(:cnos_telemetry).provide :bst_feature do
   desc 'Manage BST feature on Lenovo CNOS. Requires cnos-rbapi'
-  
+
   mk_resource_methods
   confine operatingsystem: [:ubuntu]
 
@@ -30,13 +30,13 @@ Puppet::Type.type(:cnos_telemetry).provide :bst_feature do
     resp = Telemetry.get_bst_feature(conn)
     return 'no bst feature' if !resp
     provider_val << new(name: 'telemetry_feature',
-                          bst_enable: resp['bst_enable'],
-                          send_async_reports: resp['send_async_reports'],
-                          collection_interval: resp['collection_interval'],
-                          trigger_rate_limit: resp['trigger_rate_limit'],
-                          ensure: :present,
-                          trigger_rate_limit_interval: resp['trigger_rate_limit_interval'],
-                          send_snapshot_on_trigger: resp['send-snapshot-on-trigger'])
+                        bst_enable: resp['bst_enable'],
+                        send_async_reports: resp['send_async_reports'],
+                        collection_interval: resp['collection_interval'],
+                        trigger_rate_limit: resp['trigger_rate_limit'],
+                        ensure: :present,
+                        trigger_rate_limit_interval: resp['trigger_rate_limit_interval'],
+                        send_snapshot_on_trigger: resp['send-snapshot-on-trigger'])
     return provider_val
   end
 
@@ -70,7 +70,7 @@ Puppet::Type.type(:cnos_telemetry).provide :bst_feature do
   end
 
   def flush
-    puts  @property_hash
+    puts @property_hash
     if @property_hash
       param = YAML.load_file('./config.yml')
       conn = Connect.new(param)
@@ -79,5 +79,4 @@ Puppet::Type.type(:cnos_telemetry).provide :bst_feature do
     end
     @property_hash = resource.to_hash
   end
-
 end

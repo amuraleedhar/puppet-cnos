@@ -30,18 +30,18 @@ Puppet::Type.type(:cnos_telemetry_track).provide :bst_track do
     resp = Telemetry.get_bst_tracking(conn)
     return 'no bst feature' if !resp
     provider_val << new(name: 'telemetry_tracking',
-                          ensure: :present,
-                          track_peak_stats: resp['track-peak-stats'],
-                          track_device: resp['track-device'],
-                          track_ingress_port_priority_group: resp['track-ingress-port-priority-group'],
-                          track_ingress_port_service_pool: resp['track-ingress-port-service-pool'],
-                          track_ingress_service_pool: resp['track-ingress-service-pool'],
-                          track_egress_port_service_pool: resp['track-egress-port-service-pool'],
-                          track_egress_service_pool: resp['track-egress-service-pool'],
-                          track_egress_rqe_queue: resp['track-egress-rqe-queue'],
-                          track_egress_uc_queue: resp['track-egress-uc-queue'],
-                          track_egress_cpu_queue: resp['track-egress-cpu-queue'],
-                          track_egress_mc_queue: resp['track-egress-mc-queue'])
+                        ensure: :present,
+                        track_peak_stats: resp['track-peak-stats'],
+                        track_device: resp['track-device'],
+                        track_ingress_port_priority_group: resp['track-ingress-port-priority-group'],
+                        track_ingress_port_service_pool: resp['track-ingress-port-service-pool'],
+                        track_ingress_service_pool: resp['track-ingress-service-pool'],
+                        track_egress_port_service_pool: resp['track-egress-port-service-pool'],
+                        track_egress_service_pool: resp['track-egress-service-pool'],
+                        track_egress_rqe_queue: resp['track-egress-rqe-queue'],
+                        track_egress_uc_queue: resp['track-egress-uc-queue'],
+                        track_egress_cpu_queue: resp['track-egress-cpu-queue'],
+                        track_egress_mc_queue: resp['track-egress-mc-queue'])
     return provider_val
   end
 
@@ -58,7 +58,7 @@ Puppet::Type.type(:cnos_telemetry_track).provide :bst_track do
     @property_hash[:ensure] == :present
     return true
   end
-  
+
   def params_setup
     params =
       {

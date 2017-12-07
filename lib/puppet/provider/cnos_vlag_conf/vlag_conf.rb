@@ -30,12 +30,12 @@ Puppet::Type.type(:cnos_vlag_conf).provide :vlag_conf do
     resp = Vlag.get_vlag_conf(conn)
     return 'no vlag conf' if !resp
     provider_val << new(name: 'vlag_health',
-                          status: resp['status'],
-                          priority: resp['priority'],
-                          auto_recover: resp['auto_recover'],
-                          startup_delay: resp['startup_delay'],
-                          ensure: :present,
-                          tier_id: resp['tier_id'])
+                        status: resp['status'],
+                        priority: resp['priority'],
+                        auto_recover: resp['auto_recover'],
+                        startup_delay: resp['startup_delay'],
+                        ensure: :present,
+                        tier_id: resp['tier_id'])
     return provider_val
   end
 
@@ -47,7 +47,7 @@ Puppet::Type.type(:cnos_vlag_conf).provide :vlag_conf do
       end
     end
   end
- 
+
   def flush
     params = {}
     if @property_hash != {}
@@ -72,12 +72,12 @@ Puppet::Type.type(:cnos_vlag_conf).provide :vlag_conf do
     end
     @property_hash = resource.to_hash
   end
- 
+
   def exists?
     @property_hash[:ensure] == :present
     return true
   end
-  
+
   def destroy
     param = YAML.load_file('./config.yml')
     conn = Connect.new(param)
