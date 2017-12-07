@@ -15,6 +15,7 @@
 require 'puppet/type'
 require 'cnos-rbapi'
 require 'cnos-rbapi/ip_intf'
+require 'yaml'
 
 Puppet::Type.type(:cnos_ip_intf).provide :ip_intf do
   desc 'Manage IP interfaces on Lenovo CNOS. Requires cnos-rbapi'
@@ -25,7 +26,8 @@ Puppet::Type.type(:cnos_ip_intf).provide :ip_intf do
 
   def self.instances
     provider_val = []
-    conn = Connect.new('./config.yml')
+    param = YAML.load_file('./config.yml')
+    conn = Connect.new(param)
     resp = Ipintf.get_ip_prop_all(conn)
     return 'no ip_intf' if !resp
     resp.each do |item|
@@ -52,7 +54,8 @@ Puppet::Type.type(:cnos_ip_intf).provide :ip_intf do
 
   def flush
     if @property_hash
-      conn = Connect.new('./config.yml')
+      param = YAML.load_file('./config.yml')
+      conn = Connect.new(param)
       params = params_setup
       resp = Ipintf.update_ip_prop_intf(conn, resource[:if_name], params)
     end

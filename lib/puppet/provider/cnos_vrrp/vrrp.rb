@@ -15,6 +15,7 @@
 require 'puppet/type'
 require 'cnos-rbapi'
 require 'cnos-rbapi/vrrp'
+require 'yaml'
 
 Puppet::Type.type(:cnos_vrrp).provide :vrrp do
   desc 'Manage VRRP on Lenovo CNOS. Requires cnos-rbapi'
@@ -22,11 +23,11 @@ Puppet::Type.type(:cnos_vrrp).provide :vrrp do
   confine operatingsystem: [:ubuntu]
 
   mk_resource_methods
-  conn = Connect.new('./config.yml')
 
   def self.instances
     provider_val = []
-    conn = Connect.new('./config.yml')
+    param = YAML.load_file('./config.yml')
+    conn = Connect.new(param)
     resp = Vrrp.get_vrrp_prop_all(conn)
     return 'no vrrp' if !resp
     resp.each do |item|
@@ -92,7 +93,8 @@ Puppet::Type.type(:cnos_vrrp).provide :vrrp do
 
   def flush
     if @property_hash != {}
-      conn = Connect.new('./config.yml')
+      param = YAML.load_file('./config.yml')
+      conn = Connect.new(param)
       params = params_setup
       resp = Vrrp.update_vrrp_intf_vrid(conn, resource[:if_name], resource[:vr_id], params)
     end
@@ -100,7 +102,8 @@ Puppet::Type.type(:cnos_vrrp).provide :vrrp do
   end
 
   def create
-    conn = Connect.new('./config.yml')
+    param = YAML.load_file('./config.yml')
+    conn = Connect.new(param)
     params = params_setup
     Vrrp.create_vrrp_intf(conn, resource[:if_name], params)
     @property_hash.clear
@@ -111,7 +114,8 @@ Puppet::Type.type(:cnos_vrrp).provide :vrrp do
   end
 
   def destroy
-    conn = Connect.new('./config.yml')
+    param = YAML.load_file('./config.yml')
+    conn = Connect.new(param)
     Vrrp.del_vrrp_intf_vrid(conn, resource[:if_name], resource[:vr_id])
     @property_hash.clear
   end

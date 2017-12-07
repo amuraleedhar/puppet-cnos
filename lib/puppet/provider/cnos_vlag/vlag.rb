@@ -15,6 +15,7 @@
 require 'puppet/type'
 require 'cnos-rbapi'
 require 'cnos-rbapi/vlag'
+require 'yaml'
 
 Puppet::Type.type(:cnos_vlag).provide :vlag do
   desc 'Manage Vlag on Lenovo CNOS. Requires cnos-rbapi'
@@ -48,7 +49,8 @@ Puppet::Type.type(:cnos_vlag).provide :vlag do
 
   def params_setup
     params = {}
-    conn = Connect.new('./config.yml')
+    param = YAML.load_file('./config.yml')
+    conn = Connect.new(param)
     if resource[:status] != nil
       params['status'] = resource[:status]
     end
@@ -60,7 +62,8 @@ Puppet::Type.type(:cnos_vlag).provide :vlag do
 
   def flush
     if @property_hash
-      conn = Connect.new('./config.yml')
+      param = YAML.load_file('./config.yml')
+      conn = Connect.new(param)
       params = params_setup
       resp = Vlag.update_vlag_inst(conn, resource[:inst_id], params)
     end
@@ -68,7 +71,8 @@ Puppet::Type.type(:cnos_vlag).provide :vlag do
   end
 
   def create
-    conn = Connect.new('./config.yml')
+    param = YAML.load_file('./config.yml')
+    conn = Connect.new(param)
     params = { "inst_id" => resource[:inst_id].to_i,
                "port_aggregator" => resource[:port_aggregator],
                "status" => resource[:status] }
@@ -81,7 +85,8 @@ Puppet::Type.type(:cnos_vlag).provide :vlag do
   end
 
   def destroy
-    conn = Connect.new('./config.yml')
+    param = YAML.load_file('./config.yml')
+    conn = Connect.new(param)
     Vlag.delete_vlag_inst(conn, resource[:inst_id])
     @property_hash.clear
   end

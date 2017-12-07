@@ -15,6 +15,7 @@
 require 'puppet/type'
 require 'cnos-rbapi'
 require 'cnos-rbapi/lacp'
+require 'yaml'
 
 Puppet::Type.type(:cnos_lacp).provide :lacp do
   desc 'Manage Lacp on Lenovo CNOS. Requires cnos-rbapi'
@@ -22,13 +23,15 @@ Puppet::Type.type(:cnos_lacp).provide :lacp do
   confine operatingsystem: [:ubuntu]
 
   def sys_prio
-    conn = Connect.new('./config.yml')
+    param = YAML.load_file('./config.yml')
+    conn = Connect.new(param)
     resp = Lacp.get_lacp(conn)
     resp['sys_prio']
   end
 
   def sys_prio=(value)
-    conn = Connect.new('./config.yml')
+    param = YAML.load_file('./config.yml')
+    conn = Connect.new(param)
     params = { 'sys_prio' => resource[:sys_prio] }
     resp = Lacp.update_lacp(conn, params)
   end

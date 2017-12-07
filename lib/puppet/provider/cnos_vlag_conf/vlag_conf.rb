@@ -15,6 +15,7 @@
 require 'puppet/type'
 require 'cnos-rbapi'
 require 'cnos-rbapi/vlag'
+require 'yaml'
 
 Puppet::Type.type(:cnos_vlag_conf).provide :vlag_conf do
   desc 'Manage Vlag_conf on Lenovo CNOS. Requires cnos-rbapi'
@@ -24,7 +25,8 @@ Puppet::Type.type(:cnos_vlag_conf).provide :vlag_conf do
 
   def self.instances
     provider_val = []
-    conn = Connect.new('./config.yml')
+    param = YAML.load_file('./config.yml')
+    conn = Connect.new(param)
     resp = Vlag.get_vlag_conf(conn)
     return 'no vlag conf' if !resp
     provider_val << new(name: 'vlag_health',
@@ -49,8 +51,8 @@ Puppet::Type.type(:cnos_vlag_conf).provide :vlag_conf do
   def flush
     params = {}
     if @property_hash != {}
-      puts @property_hash
-      conn = Connect.new('./config.yml')
+      param = YAML.load_file('./config.yml')
+      conn = Connect.new(param)
       if resource[:status] != nil
         params['status'] = resource[:status]
       end
@@ -77,8 +79,9 @@ Puppet::Type.type(:cnos_vlag_conf).provide :vlag_conf do
   end
   
   def destroy
+    param = YAML.load_file('./config.yml')
+    conn = Connect.new(param)
     # restoring to default values since there is no delete
-    conn = Connect.new('./config.yml')
     @property_hash.clear
   end
 end

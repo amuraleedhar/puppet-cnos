@@ -15,6 +15,7 @@
 require 'puppet/type'
 require 'cnos-rbapi'
 require 'cnos-rbapi/lag'
+require 'yaml'
 
 Puppet::Type.type(:cnos_lag).provide :lag do
   desc 'Manage lag on Lenovo CNOS. Requires cnos-rbapi'
@@ -23,7 +24,8 @@ Puppet::Type.type(:cnos_lag).provide :lag do
 
   def params_setup
     params = {}
-    conn = Connect.new('./config.yml')
+    param = YAML.load_file('./config.yml')
+    conn = Connect.new(param)
     params['lag_id'] = resource[:lag_id]
     if resource[:min_links] != nil
       params['min_links'] = resource[:min_links]
@@ -35,44 +37,51 @@ Puppet::Type.type(:cnos_lag).provide :lag do
   end
 
   def interfaces
-    conn = Connect.new('./config.yml')
+    param = YAML.load_file('./config.yml')
+    conn = Connect.new(param)
     params = params_setup
     resp = Lag.get_lag_prop(conn, resource[:lag_id])
     resp['interfaces']
   end
 
   def min_links
-    conn = Connect.new('./config.yml')
+    param = YAML.load_file('./config.yml')
+    conn = Connect.new(param)
     params = params_setup
     resp = Lag.get_lag_prop(conn, resource[:lag_id])
     resp['min_links']
   end
  
   def min_links=(value)
-    conn = Connect.new('./config.yml')
+    param = YAML.load_file('./config.yml')
+    conn = Connect.new(param)
     params = params_setup
     resp = Lag.update_lag(conn, resource[:lag_id], params)
   end
   
   def interfaces=(value)
-    conn = Connect.new('./config.yml')
+    param = YAML.load_file('./config.yml')
+    conn = Connect.new(param)
     params = params_setup
     resp = Lag.update_lag(conn, resource[:lag_id], params)
   end
  
   def create
-    conn = Connect.new('./config.yml')
+    param = YAML.load_file('./config.yml')
+    conn = Connect.new(param)
     Lag.create_lag(conn, resource[:lag_id], resource[:interfaces])
   end
 
   def exists?
-    conn = Connect.new('./config.yml')
+    param = YAML.load_file('./config.yml')
+    conn = Connect.new(param)
     resp = Lag.get_lag_prop(conn, resource[:lag_id])
     resp != nil
   end
 
   def destroy
-    conn = Connect.new('./config.yml')
+    param = YAML.load_file('./config.yml')
+    conn = Connect.new(param)
     Lag.delete_lag(conn, resource[:lag_id])
   end
 end

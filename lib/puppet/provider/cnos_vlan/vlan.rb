@@ -15,6 +15,7 @@
 require 'puppet/type'
 require 'cnos-rbapi'
 require 'cnos-rbapi/vlan'
+require 'yaml'
 
 Puppet::Type.type(:cnos_vlan).provide :vlan do
   desc 'Manage Vlan on Lenovo CNOS. Requires cnos-rbapi'
@@ -22,11 +23,11 @@ Puppet::Type.type(:cnos_vlan).provide :vlan do
   confine operatingsystem: [:ubuntu]
 
   mk_resource_methods
-  conn = Connect.new('./config.yml')
 
   def self.instances
     provider_val = []
-    conn = Connect.new('./config.yml')
+    param = YAML.load_file('./config.yml')
+    conn = Connect.new(param)
     resp = Vlan.get_all_vlan(conn)
     return 'no vlans' if !resp
     resp.each do |item|
@@ -50,7 +51,8 @@ Puppet::Type.type(:cnos_vlan).provide :vlan do
   def flush
     params = {}
     if @property_hash != {}
-      conn = Connect.new('./config.yml')
+      param = YAML.load_file('./config.yml')
+      conn = Connect.new(param)
       if resource[:vlan_name] != nil
         params['vlan_name'] = resource[:vlan_name]
       end
@@ -63,7 +65,8 @@ Puppet::Type.type(:cnos_vlan).provide :vlan do
   end
 
   def create
-    conn = Connect.new('./config.yml')
+    param = YAML.load_file('./config.yml')
+    conn = Connect.new(param)
     params = { "vlan_id" => resource[:vlan_id].to_i,
                "vlan_name" => resource[:vlan_name],
                "admin_state" => resource[:admin_state] }
@@ -76,6 +79,8 @@ Puppet::Type.type(:cnos_vlan).provide :vlan do
   end
 
   def destroy
+    param = YAML.load_file('./config.yml')
+    conn = Connect.new(param)
     Vlan.delete_vlan(conn, resource[:vlan_id])
     @property_hash.clear
   end

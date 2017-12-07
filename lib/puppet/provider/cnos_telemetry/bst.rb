@@ -15,6 +15,7 @@
 require 'puppet/type'
 require 'cnos-rbapi'
 require 'cnos-rbapi/telemetry'
+require 'yaml'
 
 Puppet::Type.type(:cnos_telemetry).provide :bst_feature do
   desc 'Manage BST feature on Lenovo CNOS. Requires cnos-rbapi'
@@ -24,7 +25,8 @@ Puppet::Type.type(:cnos_telemetry).provide :bst_feature do
 
   def self.instances
     provider_val = []
-    conn = Connect.new('./config.yml')
+    param = YAML.load_file('./config.yml')
+    conn = Connect.new(param)
     resp = Telemetry.get_bst_feature(conn)
     return 'no bst feature' if !resp
     provider_val << new(name: 'telemetry_feature',
@@ -73,8 +75,8 @@ Puppet::Type.type(:cnos_telemetry).provide :bst_feature do
   def flush
     puts  @property_hash
     if @property_hash
-      puts "hello"
-      conn = Connect.new('./config.yml')
+      param = YAML.load_file('./config.yml')
+      conn = Connect.new(param)
       params = params_setup
       Telemetry.set_bst_feature(conn, params)
     end

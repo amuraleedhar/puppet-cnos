@@ -22,26 +22,30 @@ Puppet::Type.type(:cnos_sys).provide :system do
   confine operatingsystem: [:ubuntu]
 
   def heartbeat_enable
-    conn = Connect.new('./config.yml')
+    param = YAML.load_file('./config.yml')
+    conn = Connect.new(param)
     resp = Telemetry.get_sys_feature(conn)
     resp['heartbeat-enable']
   end
 
   def msg_interval
-    conn = Connect.new('./config.yml')
+    param = YAML.load_file('./config.yml')
+    conn = Connect.new(param)
     resp = Telemetry.get_sys_feature(conn)
     resp['msg-interval']
   end
 
   def heartbeat_enable=(value)
-    conn = Connect.new('./config.yml')
+    param = YAML.load_file('./config.yml')
+    conn = Connect.new(param)
     params = { 'heartbeat-enable' => resource[:heartbeat_enable],
                'msg-interval' => resource[:msg_interval] }
     resp = Telemetry.set_sys_feature(conn, params)
   end
 
   def msg_interval=(value)
-    conn = Connect.new('./config.yml')
+    param = YAML.load_file('./config.yml')
+    conn = Connect.new(param)
     params = { 'heartbeat-enable' => resource[:heartbeat_enable],
                'msg-interval' => resource[:msg_interval] }
     resp = Telemetry.set_sys_feature(conn, params)

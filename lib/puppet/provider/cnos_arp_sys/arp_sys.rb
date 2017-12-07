@@ -15,6 +15,7 @@
 require 'puppet/type'
 require 'cnos-rbapi'
 require 'cnos-rbapi/arp'
+require 'yaml'
 
 Puppet::Type.type(:cnos_arp_sys).provide :arp_sys do
   desc 'Manage Arp_sys on Lenovo CNOS. Requires cnos-rbapi'
@@ -22,13 +23,15 @@ Puppet::Type.type(:cnos_arp_sys).provide :arp_sys do
   confine operatingsystem: [:ubuntu]
 
   def ageout_time
-    conn = Connect.new('./config.yml')
+    param = YAML.load_file('./config.yml')
+    conn = Connect.new(param)
     resp = Arp.get_arp_sys_prop(conn)
     resp['ageout_time']
   end
 
   def ageout_time=(value)
-    conn = Connect.new('./config.yml')
+    param = YAML.load_file('./config.yml')
+    conn = Connect.new(param)
     params = { 'ageout_time' => resource[:ageout_time] }
     resp = Arp.set_arp_sys_prop(conn, params)
   end

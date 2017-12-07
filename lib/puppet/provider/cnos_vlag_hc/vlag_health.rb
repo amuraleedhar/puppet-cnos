@@ -24,7 +24,8 @@ Puppet::Type.type(:cnos_vlag_hc).provide :vlag_health do
 
   def self.instances
     provider_val = []
-    conn = Connect.new('./config.yml')
+    param = YAML.load_file('./config.yml')
+    conn = Connect.new(param)
     resp = Vlag.get_vlag_health(conn)
     return 'no vlag health' if !resp
     provider_val << new(name: 'vlag_health',
@@ -49,8 +50,8 @@ Puppet::Type.type(:cnos_vlag_hc).provide :vlag_health do
   def flush
     params = {}
     if @property_hash != {}
-      puts @property_hash
-      conn = Connect.new('./config.yml')
+      param = YAML.load_file('./config.yml')
+      conn = Connect.new(param)
       if resource[:peer_ip] != nil
         params['peer_ip'] = resource[:peer_ip]
       end
@@ -78,7 +79,8 @@ Puppet::Type.type(:cnos_vlag_hc).provide :vlag_health do
   
   def destroy
     # restoring to default values since there is no delete
-    conn = Connect.new('./config.yml')
+    param = YAML.load_file('./config.yml')
+    conn = Connect.new(param)
     params = {"keepalive_interval" => 5, "keepalive_attempts" => 5, "retry_interval" => 30}
     Vlag.update_vlag_health(conn, params)
     @property_hash.clear

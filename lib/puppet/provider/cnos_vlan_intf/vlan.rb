@@ -15,6 +15,7 @@
 require 'puppet/type'
 require 'cnos-rbapi'
 require 'cnos-rbapi/vlan_intf'
+require 'yaml'
 
 Puppet::Type.type(:cnos_vlan_intf).provide :vlan do
   desc 'Manage Vlan on Lenovo CNOS. Requires cnos-rbapi'
@@ -24,9 +25,9 @@ Puppet::Type.type(:cnos_vlan_intf).provide :vlan do
   mk_resource_methods
 
   def self.instances
-    conn = Connect.new('./config.yml')
+    param = YAML.load_file('./config.yml')
+    conn = Connect.new(param)
     provider_val = []
-    conn = Connect.new('./config.yml')
     resp = VlanIntf.get_all_vlan_intf(conn)
     return 'no vlans' if !resp
     resp.each do |item|
@@ -71,7 +72,8 @@ Puppet::Type.type(:cnos_vlan_intf).provide :vlan do
 
   def flush
     if @property_hash != {}
-      conn = Connect.new('./config.yml')
+      param = YAML.load_file('./config.yml')
+      conn = Connect.new(param)
       params = params_setup
       resp = VlanIntf.update_vlan_intf(conn, resource[:if_name], params)
     end
