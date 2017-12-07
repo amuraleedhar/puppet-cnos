@@ -1,3 +1,3 @@
 cnos_lacp {'sys_prio':
-sys_prio => '32768',
+sys_prio => '32769',
 }

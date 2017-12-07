@@ -37,9 +37,6 @@ Puppet::Type.type(:cnos_telemetry).provide :bst_feature do
                           ensure: :present,
                           trigger_rate_limit_interval: resp['trigger_rate_limit_interval'],
                           send_snapshot_on_trigger: resp['send-snapshot-on-trigger'])
-    
-    puts "1 " 
-    puts  @property_hash
     return provider_val
   end
 

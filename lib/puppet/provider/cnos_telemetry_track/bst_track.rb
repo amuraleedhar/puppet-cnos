@@ -21,7 +21,44 @@ Puppet::Type.type(:cnos_telemetry_track).provide :bst_track do
   desc 'Manage BST Tracking on Lenovo CNOS. Requires cnos-rbapi'
 
   confine operatingsystem: [:ubuntu]
+  mk_resource_methods
 
+  def self.instances
+    provider_val = []
+    param = YAML.load_file('./config.yml')
+    conn = Connect.new(param)
+    resp = Telemetry.get_bst_tracking(conn)
+    return 'no bst feature' if !resp
+    provider_val << new(name: 'telemetry_tracking',
+                          ensure: :present,
+                          track_peak_stats: resp['track-peak-stats'],
+                          track_device: resp['track-device'],
+                          track_ingress_port_priority_group: resp['track-ingress-port-priority-group'],
+                          track_ingress_port_service_pool: resp['track-ingress-port-service-pool'],
+                          track_ingress_service_pool: resp['track-ingress-service-pool'],
+                          track_egress_port_service_pool: resp['track-egress-port-service-pool'],
+                          track_egress_service_pool: resp['track-egress-service-pool'],
+                          track_egress_rqe_queue: resp['track-egress-rqe-queue'],
+                          track_egress_uc_queue: resp['track-egress-uc-queue'],
+                          track_egress_cpu_queue: resp['track-egress-cpu-queue'],
+                          track_egress_mc_queue: resp['track-egress-mc-queue'])
+    return provider_val
+  end
+
+  def self.prefetch(resources)
+    feature = instances
+    resources.keys.each do |name|
+      if provider = feature.find { |feature| TRUE }
+        resources[name].provider = provider
+      end
+    end
+  end
+
+  def exists?
+    @property_hash[:ensure] == :present
+    return true
+  end
+=begin
   def track_device
     conn = Connect.new('./config.yml')
     resp = Telemetry.get_bst_tracking(conn)
@@ -88,7 +125,7 @@ Puppet::Type.type(:cnos_telemetry_track).provide :bst_track do
     puts "here"
     resp['track-peak-stats']
   end
-
+=end
   def params_setup
     params =
       {
@@ -107,6 +144,16 @@ Puppet::Type.type(:cnos_telemetry_track).provide :bst_track do
     return params
   end
 
+  def flush
+    if @property_hash
+      param = YAML.load_file('./config.yml')
+      conn = Connect.new(param)
+      params = params_setup
+      Telemetry.set_bst_tracking(conn, params)
+    end
+    @property_hash = resource.to_hash
+  end
+=begin
   def track_peak_stats=(value)
     conn = Connect.new('./config.yml')
     params = params_setup
@@ -172,4 +219,5 @@ Puppet::Type.type(:cnos_telemetry_track).provide :bst_track do
     params = params_setup
     resp = Telemetry.set_bst_tracking(conn, params)
   end
+=end
 end
