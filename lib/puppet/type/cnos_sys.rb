@@ -33,11 +33,12 @@ Puppet::Type.newtype(:cnos_sys) do
   newproperty(:heartbeat_enable) do
     desc '0/1 for enable or disable'
 
+    newvalues(0,1)
+    
     munge do |value|
       value.to_i
     end 
 
-    newvalues(0,1)
   end
 
   newproperty(:msg_interval) do

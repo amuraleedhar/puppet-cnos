@@ -23,7 +23,7 @@ Puppet::Type.newtype(:cnos_lacp) do
            }'
 
   # Parameters
-  newparam(:title, namevar: true) do
+  newparam(:title_name, namevar: true) do
     desc 'name of parameter'
   end
 

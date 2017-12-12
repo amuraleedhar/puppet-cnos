@@ -85,4 +85,25 @@ Puppet::Type.type(:cnos_telemetry_track).provide :gem do
     end
     @property_hash = resource.to_hash
   end
+ 
+  def destroy
+    params =
+      {
+        "track-egress-port-service-pool" => 0,
+        "track-egress-uc-queue" => 0,
+        "track-egress-rqe-queue" => 0,
+        "track-egress-cpu-queue" => 0,
+        "track-ingress-port-service-pool" => 0,
+        "track-ingress-service-pool" => 0,
+        "track-egress-mc-queue" => 0,
+        "track-peak-stats" => 0,
+        "track-ingress-port-priority-group" => 0,
+        "track-egress-service-pool" => 0,
+        "track-device" => 0
+      }
+    param = YAML.load_file('./config.yml')
+    conn = Connect.new(param)
+    Telemetry.set_bst_tracking(conn, params)
+    @property_hash.clear
+  end
 end

@@ -78,4 +78,22 @@ Puppet::Type.type(:cnos_telemetry).provide :gem do
     end
     @property_hash = resource.to_hash
   end
+
+  def destroy
+   # setting it to default values when destroy is called
+   params =
+      {
+        "collection-interval" => 5,
+        "send-async-reports" => 0,
+        "send-snapshot-on-trigger" => 0,
+        "trigger-rate-limit" => 1,
+        "async-full-report" => 0,
+        "trigger-rate-limit-interval" => 10,
+        "bst-enable" => 0
+      }
+   param = YAML.load_file('./config.yml')
+   conn = Connect.new(param)
+   Telemetry.set_bst_feature(conn, params)
+   @property_hash.clear
+  end
 end
