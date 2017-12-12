@@ -17,11 +17,10 @@ require 'cnos-rbapi'
 require 'cnos-rbapi/telemetry'
 require 'yaml'
 
-Puppet::Type.type(:cnos_telemetry).provide :bst_feature do
+Puppet::Type.type(:cnos_telemetry).provide :gem do
   desc 'Manage BST feature on Lenovo CNOS. Requires cnos-rbapi'
 
   mk_resource_methods
-  confine operatingsystem: [:ubuntu]
 
   def self.instances
     provider_val = []
@@ -30,12 +29,12 @@ Puppet::Type.type(:cnos_telemetry).provide :bst_feature do
     resp = Telemetry.get_bst_feature(conn)
     return 'no bst feature' if !resp
     provider_val << new(name: 'telemetry_feature',
-                        bst_enable: resp['bst_enable'],
-                        send_async_reports: resp['send_async_reports'],
-                        collection_interval: resp['collection_interval'],
-                        trigger_rate_limit: resp['trigger_rate_limit'],
+                        bst_enable: resp['bst-enable'],
+                        send_async_reports: resp['send-async-reports'],
+                        collection_interval: resp['collection-interval'],
+                        trigger_rate_limit: resp['trigger-rate-limit'],
                         ensure: :present,
-                        trigger_rate_limit_interval: resp['trigger_rate_limit_interval'],
+                        trigger_rate_limit_interval: resp['trigger-rate-limit-interval'],
                         send_snapshot_on_trigger: resp['send-snapshot-on-trigger'])
     return provider_val
   end

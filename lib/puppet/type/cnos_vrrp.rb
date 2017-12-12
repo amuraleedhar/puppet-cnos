@@ -66,7 +66,7 @@ Puppet::Type.newtype(:cnos_vrrp) do
   end
   newproperty(:preempt) do
     desc 'one of yes or no'
-    # newvalues('yes', 'no')
+    newvalues('yes', 'no')
   end
 
   newproperty(:prio) do
@@ -85,7 +85,7 @@ Puppet::Type.newtype(:cnos_vrrp) do
 
   newproperty(:admin_state) do
     desc 'one of up or down'
-    # newvalues('up', 'down')
+    newvalues('up', 'down')
   end
 
   newproperty(:track_if) do
@@ -99,7 +99,7 @@ Puppet::Type.newtype(:cnos_vrrp) do
 
   newproperty(:v2_compt) do
     desc 'one of yes, no'
-    # newvalues('yes', 'no')
+    newvalues('yes', 'no')
   end
 
   newproperty(:switch_back_delay) do

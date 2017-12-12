@@ -28,13 +28,9 @@ Puppet::Type.newtype(:cnos_vlan) do
   newparam(:vlan_id, namevar: true) do
     desc 'vlan_id an integer from 2-3999'
 
-=begin    munge do |value|
-      value.to_i
-    end
-=end
     validate do |value|
       unless value.to_i.between?(1, 3999)
-        fail "value not within limit (2-3999)"
+        fail "value not within limit (1-3999)"
       end
     end
   end
@@ -46,5 +42,6 @@ Puppet::Type.newtype(:cnos_vlan) do
 
   newproperty(:admin_state) do
     desc 'one of up or down'
+    newvalues('up', 'down')
   end
 end

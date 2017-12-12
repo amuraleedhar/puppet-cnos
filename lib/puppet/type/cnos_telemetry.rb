@@ -32,12 +32,13 @@ Puppet::Type.newtype(:cnos_telemetry) do
   # Parameters
   newparam(:bst_feature, namevar: true) do
     desc 'setting bst feature - should be "bst"'
-    newvalues("bst", "bst_feature")
   end
 
   # Properties
   newproperty(:bst_enable) do
     desc '0/1 for enable or disable'
+
+    newvalues(0,1)
 
     munge do |value|
       value.to_i
@@ -47,6 +48,8 @@ Puppet::Type.newtype(:cnos_telemetry) do
   newproperty(:send_async_reports) do
     desc '0/1 for enable or disable'
 
+    newvalues(0,1)
+    
     munge do |value|
       value.to_i
     end
@@ -55,6 +58,8 @@ Puppet::Type.newtype(:cnos_telemetry) do
   newproperty(:async_full_report) do
     desc '0/1 for enable or disable'
 
+    newvalues(0,1)
+    
     munge do |value|
       value.to_i
     end
@@ -63,6 +68,7 @@ Puppet::Type.newtype(:cnos_telemetry) do
   newproperty(:collection_interval) do
     desc 'collection interval in seconds'
 
+    
     munge do |value|
       value.to_i
     end
@@ -83,7 +89,7 @@ Puppet::Type.newtype(:cnos_telemetry) do
   end
 
   newproperty(:trigger_rate_limit_interval) do
-    desc '0/1 for enable or disable'
+    desc 'trigger rate limit interval'
 
     munge do |value|
       value.to_i
@@ -99,6 +105,8 @@ Puppet::Type.newtype(:cnos_telemetry) do
   newproperty(:send_snapshot_on_trigger) do
     desc '0/1 for enable or disable'
 
+    newvalues(0,1)
+    
     munge do |value|
       value.to_i
     end
@@ -107,6 +115,8 @@ Puppet::Type.newtype(:cnos_telemetry) do
   newproperty(:async_full_reports) do
     desc '0/1 for enable or disable'
 
+    newvalues(0,1)
+    
     munge do |value|
       value.to_i
     end

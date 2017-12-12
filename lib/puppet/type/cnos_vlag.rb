@@ -51,7 +51,7 @@ Puppet::Type.newtype(:cnos_vlag) do
   end
 
   newproperty(:status) do
-    desc 'one of up or down'
-    #  newvalues('enable', 'disable')
+    desc 'one of enable or disable'
+    newvalues('enable', 'disable')
   end
 end

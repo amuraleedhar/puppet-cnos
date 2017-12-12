@@ -35,7 +35,9 @@ Puppet::Type.newtype(:cnos_sys) do
 
     munge do |value|
       value.to_i
-    end
+    end 
+
+    newvalues(0,1)
   end
 
   newproperty(:msg_interval) do

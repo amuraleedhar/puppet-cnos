@@ -17,10 +17,8 @@ require 'cnos-rbapi'
 require 'cnos-rbapi/lag'
 require 'yaml'
 
-Puppet::Type.type(:cnos_lag).provide :lag do
+Puppet::Type.type(:cnos_lag).provide :gem do
   desc 'Manage lag on Lenovo CNOS. Requires cnos-rbapi'
-
-  confine operatingsystem: [:ubuntu]
 
   def params_setup
     params = {}

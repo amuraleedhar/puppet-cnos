@@ -17,10 +17,8 @@ require 'cnos-rbapi'
 require 'cnos-rbapi/vlan_intf'
 require 'yaml'
 
-Puppet::Type.type(:cnos_vlan_intf).provide :vlan do
+Puppet::Type.type(:cnos_vlan_intf).provide :gem do
   desc 'Manage Vlan on Lenovo CNOS. Requires cnos-rbapi'
-
-  confine operatingsystem: [:ubuntu]
 
   mk_resource_methods
 

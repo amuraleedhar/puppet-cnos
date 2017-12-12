@@ -17,10 +17,8 @@ require 'cnos-rbapi'
 require 'cnos-rbapi/ip_intf'
 require 'yaml'
 
-Puppet::Type.type(:cnos_ip_intf).provide :ip_intf do
+Puppet::Type.type(:cnos_ip_intf).provide :gem do
   desc 'Manage IP interfaces on Lenovo CNOS. Requires cnos-rbapi'
-
-  confine operatingsystem: [:ubuntu]
 
   mk_resource_methods
 

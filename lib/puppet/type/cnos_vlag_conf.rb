@@ -37,6 +37,7 @@ Puppet::Type.newtype(:cnos_vlag_conf) do
   # Properties
   newproperty(:status) do
     desc 'status'
+    newvalues('enable', 'disable')
   end
 
   newproperty(:tier_id) do

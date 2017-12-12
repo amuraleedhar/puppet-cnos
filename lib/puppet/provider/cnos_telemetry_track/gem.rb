@@ -17,10 +17,9 @@ require 'cnos-rbapi'
 require 'cnos-rbapi/telemetry'
 require 'yaml'
 
-Puppet::Type.type(:cnos_telemetry_track).provide :bst_track do
+Puppet::Type.type(:cnos_telemetry_track).provide :gem do
   desc 'Manage BST Tracking on Lenovo CNOS. Requires cnos-rbapi'
 
-  confine operatingsystem: [:ubuntu]
   mk_resource_methods
 
   def self.instances

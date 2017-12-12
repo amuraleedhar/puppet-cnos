@@ -17,10 +17,8 @@ require 'cnos-rbapi'
 require 'cnos-rbapi/vrrp'
 require 'yaml'
 
-Puppet::Type.type(:cnos_vrrp).provide :vrrp do
+Puppet::Type.type(:cnos_vrrp).provide :gem do
   desc 'Manage VRRP on Lenovo CNOS. Requires cnos-rbapi'
-
-  confine operatingsystem: [:ubuntu]
 
   mk_resource_methods
 

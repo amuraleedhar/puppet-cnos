@@ -14,13 +14,11 @@
 
 require 'puppet/type'
 require 'cnos-rbapi'
-require 'cnos-rbapi/vlan'
+require 'cnos-rbapi/vlag'
 require 'yaml'
 
-Puppet::Type.type(:cnos_vlan).provide :vlan do
-  desc 'Manage Vlan on Lenovo CNOS. Requires cnos-rbapi'
-
-  confine operatingsystem: [:ubuntu]
+Puppet::Type.type(:cnos_vlag_conf).provide :gem do
+  desc 'Manage Vlag_conf on Lenovo CNOS. Requires cnos-rbapi'
 
   mk_resource_methods
 
@@ -28,21 +26,22 @@ Puppet::Type.type(:cnos_vlan).provide :vlan do
     provider_val = []
     param = YAML.load_file('./config.yml')
     conn = Connect.new(param)
-    resp = Vlan.get_all_vlan(conn)
-    return 'no vlans' if !resp
-    resp.each do |item|
-      provider_val << new(name: item['vlan_id'].to_s,
-                          vlan_name: item['vlan_name'],
-                          ensure: :present,
-                          admin_state: item['admin_state'])
-    end
+    resp = Vlag.get_vlag_conf(conn)
+    return 'no vlag conf' if !resp
+    provider_val << new(name: 'vlag_health',
+                        status: resp['status'],
+                        priority: resp['priority'],
+                        auto_recover: resp['auto_recover'],
+                        startup_delay: resp['startup_delay'],
+                        ensure: :present,
+                        tier_id: resp['tier_id'])
     return provider_val
   end
 
   def self.prefetch(resources)
-    vlans = instances
+    vlag = instances
     resources.keys.each do |name|
-      if provider = vlans.find { |vlan| vlan.name == name }
+      if provider = vlag.find { |vlag| TRUE }
         resources[name].provider = provider
       end
     end
@@ -53,35 +52,35 @@ Puppet::Type.type(:cnos_vlan).provide :vlan do
     if @property_hash != {}
       param = YAML.load_file('./config.yml')
       conn = Connect.new(param)
-      if resource[:vlan_name] != nil
-        params['vlan_name'] = resource[:vlan_name]
+      if resource[:status] != nil
+        params['status'] = resource[:status]
       end
-      if resource[:admin_state] != nil
-        params['admin_state'] = resource[:admin_state]
+      if resource[:tier_id] != nil
+        params['tier_id'] = resource[:tier_id]
       end
-      resp = Vlan.update_vlan(conn, resource[:vlan_id], params)
+      if resource[:priority] != nil
+        params['priority'] = resource[:priority]
+      end
+      if resource[:auto_recover] != nil
+        params['auto_recover'] = resource[:auto_recover]
+      end
+      if resource[:startup_delay] != nil
+        params['startup_delay'] = resource[:startup_delay]
+      end
+      resp = Vlag.update_vlag_conf(conn, params)
     end
     @property_hash = resource.to_hash
   end
 
-  def create
-    param = YAML.load_file('./config.yml')
-    conn = Connect.new(param)
-    params = { "vlan_id" => resource[:vlan_id].to_i,
-               "vlan_name" => resource[:vlan_name],
-               "admin_state" => resource[:admin_state] }
-    Vlan.create_vlan(conn, params)
-    @property_hash.clear
-  end
-
   def exists?
     @property_hash[:ensure] == :present
+    return true
   end
 
   def destroy
     param = YAML.load_file('./config.yml')
     conn = Connect.new(param)
-    Vlan.delete_vlan(conn, resource[:vlan_id])
+    # restoring to default values since there is no delete
     @property_hash.clear
   end
 end

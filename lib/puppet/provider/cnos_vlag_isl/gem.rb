@@ -14,25 +14,21 @@
 
 require 'puppet/type'
 require 'cnos-rbapi'
-require 'cnos-rbapi/arp'
+require 'cnos-rbapi/vlag'
 require 'yaml'
 
-Puppet::Type.type(:cnos_arp_sys).provide :arp_sys do
-  desc 'Manage Arp_sys on Lenovo CNOS. Requires cnos-rbapi'
+Puppet::Type.type(:cnos_vlag_isl).provide :gem do
+  desc 'Manage Vlag on Lenovo CNOS. Requires cnos-rbapi'
 
-  confine operatingsystem: [:ubuntu]
-
-  def ageout_time
-    param = YAML.load_file('./config.yml')
-    conn = Connect.new(param)
-    resp = Arp.get_arp_sys_prop(conn)
-    resp['ageout_time']
+  def port_aggregator
+    conn = Connect.new('./config.yml')
+    resp = Vlag.get_vlag_isl(conn)
+    resp['port_aggregator']
   end
 
-  def ageout_time=(value)
-    param = YAML.load_file('./config.yml')
-    conn = Connect.new(param)
-    params = { 'ageout_time' => resource[:ageout_time] }
-    resp = Arp.set_arp_sys_prop(conn, params)
+  def port_aggregator=(value)
+    conn = Connect.new('./config.yml')
+    params = { 'port_aggregator' => resource[:port_aggregator] }
+    resp = Vlag.update_vlag_isl(conn, params)
   end
 end

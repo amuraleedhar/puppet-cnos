@@ -17,10 +17,8 @@ require 'cnos-rbapi'
 require 'cnos-rbapi/telemetry'
 require 'yaml'
 
-Puppet::Type.type(:cnos_sys).provide :system do
+Puppet::Type.type(:cnos_sys).provide :gem do
   desc 'Manage System properties on Lenovo CNOS. Requires cnos-rbapi'
-
-  confine operatingsystem: [:ubuntu]
 
   def heartbeat_enable
     param = YAML.load_file('./config.yml')

@@ -40,6 +40,8 @@ Puppet::Type.newtype(:cnos_telemetry_track) do
   # Properties
   newproperty(:track_peak_stats) do
     desc '0/1 for enable or disable'
+    
+    newvalues(0,1)
 
     munge do |value|
       value.to_i
@@ -49,6 +51,8 @@ Puppet::Type.newtype(:cnos_telemetry_track) do
   newproperty(:track_ingress_port_priority_group) do
     desc '0/1 for enable or disable'
 
+    newvalues(0,1)
+    
     munge do |value|
       value.to_i
     end
@@ -57,6 +61,8 @@ Puppet::Type.newtype(:cnos_telemetry_track) do
   newproperty(:track_ingress_port_service_pool) do
     desc '0/1 for enable or disable'
 
+    newvalues(0,1)
+    
     munge do |value|
       value.to_i
     end
@@ -65,6 +71,8 @@ Puppet::Type.newtype(:cnos_telemetry_track) do
   newproperty(:track_ingress_service_pool) do
     desc '0/1 for enable or disable'
 
+    newvalues(0,1)
+    
     munge do |value|
       value.to_i
     end
@@ -73,6 +81,8 @@ Puppet::Type.newtype(:cnos_telemetry_track) do
   newproperty(:track_egress_port_service_pool) do
     desc '0/1 for enable or disable'
 
+    newvalues(0,1)
+    
     munge do |value|
       value.to_i
     end
@@ -81,6 +91,8 @@ Puppet::Type.newtype(:cnos_telemetry_track) do
   newproperty(:track_egress_service_pool) do
     desc '0/1 for enable or disable'
 
+    newvalues(0,1)
+    
     munge do |value|
       value.to_i
     end
@@ -89,6 +101,8 @@ Puppet::Type.newtype(:cnos_telemetry_track) do
   newproperty(:track_egress_uc_queue) do
     desc '0/1 for enable or disable'
 
+    newvalues(0,1)
+    
     munge do |value|
       value.to_i
     end
@@ -97,6 +111,8 @@ Puppet::Type.newtype(:cnos_telemetry_track) do
   newproperty(:track_egress_rqe_queue) do
     desc '0/1 for enable or disable'
 
+    newvalues(0,1)
+    
     munge do |value|
       value.to_i
     end
@@ -105,6 +121,8 @@ Puppet::Type.newtype(:cnos_telemetry_track) do
   newproperty(:track_egress_cpu_queue) do
     desc '0/1 for enable or disable'
 
+    newvalues(0,1)
+    
     munge do |value|
       value.to_i
     end
@@ -113,6 +131,8 @@ Puppet::Type.newtype(:cnos_telemetry_track) do
   newproperty(:track_egress_mc_queue) do
     desc '0/1 for enable or disable'
 
+    newvalues(0,1)
+    
     munge do |value|
       value.to_i
     end
@@ -121,6 +141,8 @@ Puppet::Type.newtype(:cnos_telemetry_track) do
   newproperty(:track_device) do
     desc '0/1 for enable or disable'
 
+    newvalues(0,1)
+    
     munge do |value|
       value.to_i
     end

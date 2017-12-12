@@ -48,11 +48,6 @@ Puppet::Type.newtype(:cnos_lag) do
   # Properties
   newproperty(:interfaces, array_matching: :all) do
     desc 'array of interfaces dictionary'
-=begin
-    def insync?(current)
-      current.sort == should.sort
-    end
-=end
   end
 
   newproperty(:min_links) do

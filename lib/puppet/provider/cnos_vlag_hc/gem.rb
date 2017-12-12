@@ -17,10 +17,9 @@ require 'cnos-rbapi'
 require 'cnos-rbapi/vlag'
 require 'yaml'
 
-Puppet::Type.type(:cnos_vlag_hc).provide :vlag_health do
+Puppet::Type.type(:cnos_vlag_hc).provide :gem do
   desc 'Manage Vlag_health on Lenovo CNOS. Requires cnos-rbapi'
 
-  confine operatingsystem: [:ubuntu]
   mk_resource_methods
 
   def self.instances
@@ -49,28 +48,33 @@ Puppet::Type.type(:cnos_vlag_hc).provide :vlag_health do
   end
 
   def flush
-    params = {}
     if @property_hash != {}
       param = YAML.load_file('./config.yml')
       conn = Connect.new(param)
-      if resource[:peer_ip] != nil
-        params['peer_ip'] = resource[:peer_ip]
-      end
-      if resource[:vrf] != nil
-        params['vrf'] = resource[:vrf]
-      end
-      if resource[:retry_interval] != nil
-        params['retry_interval'] = resource[:retry_interval]
-      end
-      if resource[:keepalive_interval] != nil
-        params['keepalive_interval'] = resource[:keepalive_interval]
-      end
-      if resource[:keepalive_attempts] != nil
-        params['keepalive_attempts'] = resource[:keepalive_attempts]
-      end
+      params = params_setup
       resp = Vlag.update_vlag_health(conn, params)
     end
     @property_hash = resource.to_hash
+  end
+
+  def params_setup
+    params = {}
+    if resource[:peer_ip] != nil
+      params['peer_ip'] = resource[:peer_ip]
+    end
+    if resource[:vrf] != nil
+      params['vrf'] = resource[:vrf]
+    end
+    if resource[:retry_interval] != nil
+      params['retry_interval'] = resource[:retry_interval]
+    end
+    if resource[:keepalive_interval] != nil
+      params['keepalive_interval'] = resource[:keepalive_interval]
+    end
+    if resource[:keepalive_attempts] != nil
+      params['keepalive_attempts'] = resource[:keepalive_attempts]
+    end
+    params
   end
 
   def exists?
